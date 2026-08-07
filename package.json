@@ -1,0 +1,20 @@
+{
+  "name": "asterisk4magisk.github.io",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "vitepress dev site",
+    "build": "vitepress build site",
+    "preview": "vitepress preview site",
+    "test:build": "npm run build && node --test test/metadata-output.test.mjs test/build-output.test.mjs",
+    "test": "node --test test/dev-script.test.mjs test/locale-preference-sync.test.mjs test/locale-routing.test.mjs test/site-content.test.mjs"
+  },
+  "engines": {
+    "node": ">=20"
+  },
+  "devDependencies": {
+    "vitepress": "^1.6.4",
+    "vue": "^3.5.30"
+  }
+}
