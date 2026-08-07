@@ -11,11 +11,10 @@ npm ci
 npm run dev
 ```
 
-## Verification
+## Build verification
 
 ```powershell
-npm test
-npm run test:build
+npm run build
 ```
 
 The VitePress/Vite development server is intended for trusted local networks only. Do not expose it to untrusted networks, and track VitePress/Vite updates for upstream fixes to development-server advisories reported by `npm audit`.

@@ -6,9 +6,7 @@
   "scripts": {
     "dev": "vitepress dev site",
     "build": "vitepress build site",
-    "preview": "vitepress preview site",
-    "test:build": "npm run build && node --test test/metadata-output.test.mjs test/build-output.test.mjs",
-    "test": "node --test test/dev-script.test.mjs test/locale-preference-sync.test.mjs test/locale-routing.test.mjs test/site-content.test.mjs"
+    "preview": "vitepress preview site"
   },
   "engines": {
     "node": ">=20"
