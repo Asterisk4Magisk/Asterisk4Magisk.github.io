@@ -146,8 +146,8 @@ button:focus-visible { outline: 3px solid var(--vp-c-brand-1); outline-offset: 3
   .app-grid { grid-template-columns: 1fr; }
   .app-card { min-height: 0; }
   .app-card > p { min-height: 0; }
-  .site-footer { align-items: flex-start; flex-direction: column; }
-  .site-footer nav { justify-content: flex-start; }
+  .site-footer { align-items: flex-end; flex-direction: column; }
+  .site-footer nav { justify-content: flex-end; }
   .app-card__actions .button { flex: 1 1 140px; }
 }
 
