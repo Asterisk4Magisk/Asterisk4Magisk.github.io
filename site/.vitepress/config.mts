@@ -3,7 +3,7 @@ import { defineConfig } from 'vitepress'
 const github = 'https://github.com/Asterisk4Magisk'
 
 export default defineConfig({
-  title: 'AsteriskAPP',
+  title: 'Asterisk App Family',
   titleTemplate: false,
   description: 'Open-source proxy clients for Android',
   cleanUrls: true,
@@ -21,19 +21,19 @@ export default defineConfig({
       label: '简体中文',
       lang: 'zh-CN',
       link: '/zh-cn/',
-      title: 'AsteriskAPP',
+      title: 'Asterisk App Family',
       description: '面向 Android 的开源代理客户端系列'
     },
     en: {
       label: 'English',
       lang: 'en',
       link: '/en/',
-      title: 'AsteriskAPP',
+      title: 'Asterisk App Family',
       description: 'Open-source proxy clients for Android'
     }
   },
   themeConfig: {
-    siteTitle: 'AsteriskAPP',
+    siteTitle: 'Asterisk App Family',
     appearance: true,
     socialLinks: [{ icon: 'github', link: github }],
     locales: {

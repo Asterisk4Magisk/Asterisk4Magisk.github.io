@@ -1,10 +1,10 @@
-# AsteriskAPP Website
+# Asterisk App Family website
 
 Official GitHub Pages website for AsteriskNG, AsteriskMETA, and AsteriskBOX.
 
 ## Local development
 
-Requirements: Node.js 20 or newer and npm.
+Requirements: Node.js 24 or newer and npm.
 
 ```powershell
 npm ci
@@ -33,4 +33,4 @@ Add future languages as their own lowercase URL directory and locale configurati
 
 ## License
 
-The linked AsteriskAPPs are released under GPL-3.0. Website source licensing should be declared by the repository owner before external reuse.
+The apps in the Asterisk App Family are released under GPL-3.0. Website source licensing should be declared by the repository owner before external reuse.

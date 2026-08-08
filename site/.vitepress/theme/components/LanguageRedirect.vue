@@ -17,7 +17,7 @@ onMounted(() => {
 
 <template>
   <main class="language-gateway">
-    <p class="language-gateway__eyebrow">AsteriskAPP</p>
+    <p class="language-gateway__eyebrow">Asterisk App Family</p>
     <h1>Choose your language</h1>
     <p>Select a language if automatic detection does not continue.</p>
     <nav aria-label="Available languages">
