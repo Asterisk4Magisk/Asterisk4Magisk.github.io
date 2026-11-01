@@ -30,10 +30,11 @@ The app creates a virtual network interface through Android's `VpnService`, and 
 
 Common options under **Proxy settings (VPN Service)**:
 
-- **Enable DNS hijacking**: let the core handle DNS requests.
-- **Append HTTP proxy**: attach a system HTTP proxy to the VPN so apps that support it can use the HTTP proxy directly.
+- **Append HTTP proxy** (Android 10 and later): attach a system HTTP proxy to the VPN so apps that support it can use the HTTP proxy directly.
 - **Use Hev TUN**: handle the TUN device with `hev-socks5-tunnel`.
 - **TUN settings**: MTU, VPN DNS, and IPv4 / IPv6 ranges.
+
+The **Enable DNS hijacking** switch, which lets the core handle DNS requests, is not here but in the DNS settings: **Core settings → DNS settings** in AsteriskNG, and the DNS settings / **DNS management** under **General** in AsteriskMETA / AsteriskBOX.
 
 Every mode has **Local proxy settings**: local proxy port, username, and password. **Dynamic local proxy port** picks a free port on every start; **Listen on all network interfaces** binds to `0.0.0.0` so other devices on your LAN can connect (always set a username and password when you enable it).
 
@@ -56,26 +57,26 @@ The first time you switch to a ROOT mode, your root manager asks for permission 
 | --- | --- |
 | **Start on boot** | Generates a `service.d` script so the root solution starts the service at boot |
 | **Service control** | Starts or stops automatically by Wi-Fi, lock screen, or schedule; see [Automation & control](./automation#service-control) |
-| **Use eBPF matcher** | Speeds up matching for large per-app lists and supports address filtering |
-| **Bypass direct addresses** | Shown with the eBPF matcher or in BPF2SOCKS. Matching destinations skip the core; defaults to the China address list, adjustable in **Resource management** |
-| **Bypass private addresses** (AsteriskBOX) | Private addresses skip the core |
+| **Use eBPF matcher** | TPROXY and TUN2SOCKS only. Speeds up matching for large per-app lists and supports address filtering |
+| **Bypass direct addresses** | A switch when the eBPF matcher is on or in BPF2SOCKS: matching destinations skip the core, using the China address list by default (adjustable in **Resource management**). In TUN mode (AsteriskMETA / AsteriskBOX) and eBPF mode (AsteriskBOX) it becomes a picker for IP CIDR rule sets instead; see below |
+| **Bypass private addresses** | AsteriskBOX eBPF mode only. Private addresses skip the core |
 | **Disable system IPv6** | Shown when IPv6 is disabled in the app; prevents IPv6 leaks through WebRTC and similar |
-| **Application list enhancement** | Shown in supported modes; see [Enhancement module](#enhance) below |
+| **Application list enhancement** | TPROXY, TUN2SOCKS, and BPF2SOCKS only; see [Enhancement module](#enhance) below |
 | **Tethering sharing** | Lets traffic from Wi-Fi / USB / Bluetooth / Ethernet tethering clients enter the proxy |
 | **Ignored interfaces** | Interfaces that should not be captured; a trailing `+` matches a prefix, e.g. `wlan+` |
 | **Private addresses** | Private addresses skip the core by default; add ranges here that should be proxied |
 
-In TUN mode (AsteriskMETA / AsteriskBOX), tethering sharing takes the actual downstream interface names instead (e.g. `ap0`, `rndis0`); wildcards are not supported.
+In TUN mode (AsteriskMETA / AsteriskBOX) and eBPF mode (AsteriskBOX), **Tethering sharing** takes the actual downstream interface names instead (e.g. `ap0`, `rndis0`, no wildcards), and **Ignored interfaces** and **Private addresses** are not shown.
 
 ::: info FakeDNS and per-app proxy
-When FakeDNS / FakeIP is enabled in a ROOT mode, per-app proxy only supports **All-app mode**.
+When FakeDNS / FakeIP is enabled in a ROOT mode, per-app proxy only supports **All-app mode** by default. With [Application list enhancement](#enhance) on in TPROXY, TUN2SOCKS, or BPF2SOCKS mode, DNS is split by the per-app list and this restriction is lifted.
 :::
 
 ### Notes on each ROOT mode
 
 - **TPROXY**: set the **Transparent proxy port**. Built on iptables and policy routing; does not need eBPF.
-- **TUN**: uses the core's own TUN stack. AsteriskMETA lets you choose the **TUN stack** here and pick IP CIDR rule sets that bypass capture entirely (domain rules have no effect here).
-- **eBPF** (AsteriskBOX): choose the **Data plane** (`socket_assign` / `cgroup` / `packet_rewrite`, etc.) and **DNS mode** (`hijack` takes over port 53; `respect_policy` follows the app filter).
+- **TUN**: uses the core's own TUN stack. Under **Bypass direct addresses** you can pick IP CIDR rule sets that bypass capture entirely (domain rules have no effect here); AsteriskMETA also lets you choose the **TUN stack**.
+- **eBPF** (AsteriskBOX): choose the **Data plane** (`socket_assign` / `cgroup` / `packet_rewrite`, etc.) and **DNS mode** (`hijack` takes over port 53; `respect_policy` follows the app filter). Like TUN mode, IP CIDR rule sets can bypass capture.
 - **TUN2SOCKS**: set the SOCKS5 port used by TUN2SOCKS, plus the TUN MTU and ranges.
 - **BPF2SOCKS**: set the **BPF2SOCKS bridge port** and the **SOCKS5 port**.
 

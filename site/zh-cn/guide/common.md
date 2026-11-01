@@ -31,7 +31,7 @@ description: 三款应用共有的功能：分应用代理、资源管理、开�
 - 下拉列表可刷新已安装应用。
 
 ::: tip
-ROOT 模式开启 FakeDNS / FakeIP 时，只能使用全应用模式。
+ROOT 模式开启 FakeDNS / FakeIP 时，默认只能使用全应用模式；在 TPROXY、TUN2SOCKS、BPF2SOCKS 模式下开启 [应用名单增强](./run-modes#enhance) 后，可以继续使用白名单 / 黑名单。
 :::
 
 ## 资源管理 {#resources}

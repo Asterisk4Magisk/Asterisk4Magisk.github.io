@@ -16,7 +16,7 @@ The bottom navigation has four tabs: **Home**, **Proxies**, **Profiles**, and **
 | APK file name | Without `-meow` | With `-meow` |
 | Run modes | VPN Service, TPROXY, TUN, TUN2SOCKS, BPF2SOCKS | Same, but **no TUN (ROOT)** |
 
-Both editions share a package name: install one over the other to switch; your data is kept.
+Both editions share a package name: install one over the other to switch; your data is kept. If you switch to the Meow edition while using TUN (ROOT), the run mode is reset to VPN Service and start on boot is turned off.
 
 ## Home {#home}
 

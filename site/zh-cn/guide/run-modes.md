@@ -30,10 +30,11 @@ description: VPN Service、TPROXY、TUN、eBPF、TUN2SOCKS、BPF2SOCKS 运行模
 
 **代理设置（VPN Service）** 中的常用项：
 
-- **启用 DNS 劫持**：由核心处理 DNS 请求。
-- **追加 HTTP 代理**：在 VPN 上附带系统 HTTP 代理，让支持的应用直接使用 HTTP 代理。
+- **追加 HTTP 代理**（Android 10 及以上）：在 VPN 上附带系统 HTTP 代理，让支持的应用直接使用 HTTP 代理。
 - **使用 Hev TUN**：改用 `hev-socks5-tunnel` 处理 TUN 设备。
 - **TUN 设置**：MTU、VPN DNS、IPv4 / IPv6 地址段。
+
+由核心处理 DNS 请求的 **启用 DNS 劫持** 开关不在这里，而在 DNS 设置中：AsteriskNG 为 **核心设置 → DNS 设置**，AsteriskMETA / AsteriskBOX 为 **常规** 中的 DNS 设置 / **DNS 管理**。
 
 所有模式都有 **本地代理设置**：本地代理端口、用户名与密码；**动态本地代理端口** 会在每次启动时自动挑选可用端口；**监听全部网络接口** 绑定到 `0.0.0.0`，允许局域网内其他设备连接（开启时请务必设置用户名和密码）。
 
@@ -56,26 +57,26 @@ ROOT 模式下，应用通过 libsu 以 ROOT 身份直接运行核心可执行�
 | --- | --- |
 | **开机自启** | 生成 `service.d` 启动脚本，开机后由 ROOT 方案拉起服务 |
 | **服务控制** | 按 Wi-Fi、锁屏、定时条件自动启停，见 [自动化与外部控制](./automation#service-control) |
-| **使用 eBPF 匹配器** | 分应用名单较大时提升匹配性能，并支持地址过滤 |
-| **绕过直连地址** | 开启 eBPF 匹配器或使用 BPF2SOCKS 时出现。命中名单的目标地址不进入代理核心；默认使用中国地址列表，可在 **资源管理** 中调整 |
-| **绕过私有地址**（AsteriskBOX） | 私有地址不进入代理核心 |
+| **使用 eBPF 匹配器** | 仅 TPROXY 与 TUN2SOCKS 模式。分应用名单较大时提升匹配性能，并支持地址过滤 |
+| **绕过直连地址** | 开启 eBPF 匹配器或使用 BPF2SOCKS 时为开关：命中名单的目标地址不进入代理核心，默认使用中国地址列表，可在 **资源管理** 中调整。TUN 模式（AsteriskMETA / AsteriskBOX）与 eBPF 模式（AsteriskBOX）下改为选择 IP CIDR 规则集，见下文 |
+| **绕过私有地址** | 仅 AsteriskBOX 的 eBPF 模式。私有地址不进入代理核心 |
 | **禁用系统 IPv6** | 在应用中关闭 IPv6 后出现，用于防止 WebRTC 等途径泄露 IPv6 地址 |
-| **应用名单增强** | 在支持的模式下出现，见下文 [增强模块](#enhance) |
+| **应用名单增强** | 仅 TPROXY、TUN2SOCKS、BPF2SOCKS 模式，见下文 [增强模块](#enhance) |
 | **热点共享设置** | 允许 Wi-Fi / USB / 蓝牙 / 以太网 热点共享的下游设备流量进入代理 |
 | **忽略接口设置** | 指定不接管的网络接口；末尾加 `+` 可按前缀匹配，如 `wlan+` |
 | **私有地址设置** | 私有地址默认不进入代理核心；需要代理的网段在此添加 |
 
-在 TUN 模式下（AsteriskMETA / AsteriskBOX），热点共享改为填写实际的下游接口名（如 `ap0`、`rndis0`），不支持通配符。
+在 TUN 模式（AsteriskMETA / AsteriskBOX）与 eBPF 模式（AsteriskBOX）下，**热点共享设置** 改为填写实际的下游接口名（如 `ap0`、`rndis0`），不支持通配符；**忽略接口设置** 与 **私有地址设置** 不显示。
 
 ::: info FakeDNS 与分应用代理
-ROOT 模式开启 FakeDNS / FakeIP 时，分应用代理仅支持 **全应用模式**。
+ROOT 模式开启 FakeDNS / FakeIP 时，分应用代理默认仅支持 **全应用模式**。在 TPROXY、TUN2SOCKS、BPF2SOCKS 模式下开启 [应用名单增强](#enhance) 后，DNS 会按应用名单分流，此限制随之解除。
 :::
 
 ### 各 ROOT 模式的要点
 
 - **TPROXY**：设置 **透明代理端口**。基于 iptables 与策略路由，不依赖 eBPF。
-- **TUN**：使用核心自身的 TUN 栈。AsteriskMETA 可在此选择 **TUN 栈**，并可指定若干 IP CIDR 规则集直接绕过流量接管（域名规则在此处不生效）。
-- **eBPF**（AsteriskBOX）：可选择 **数据面**（`socket_assign` / `cgroup` / `packet_rewrite` 等）和 **DNS 模式**（`hijack` 接管 53 端口，`respect_policy` 遵循应用筛选）。
+- **TUN**：使用核心自身的 TUN 栈。可在 **绕过直连地址** 中指定若干 IP CIDR 规则集直接绕过流量接管（域名规则在此处不生效）；AsteriskMETA 还可选择 **TUN 栈**。
+- **eBPF**（AsteriskBOX）：可选择 **数据面**（`socket_assign` / `cgroup` / `packet_rewrite` 等）和 **DNS 模式**（`hijack` 接管 53 端口，`respect_policy` 遵循应用筛选）；与 TUN 模式一样可用 IP CIDR 规则集绕过流量接管。
 - **TUN2SOCKS**：设置 TUN2SOCKS 使用的 SOCKS5 端口，以及 TUN 的 MTU 与地址段。
 - **BPF2SOCKS**：设置 **BPF2SOCKS bridge 端口** 与 **SOCKS5 端口**。
 

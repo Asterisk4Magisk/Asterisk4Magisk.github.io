@@ -56,11 +56,14 @@ These modes depend on kernel eBPF support and are generally suited to devices wi
 
 ### Tethered devices are not proxied
 
-Under **Proxy settings → Tethering sharing**, check the tethering types you use (Wi-Fi / USB / Bluetooth / Ethernet); in TUN mode, enter the actual downstream interface names. VPN Service mode cannot transparently proxy tethered devices; instead, turn on **Listen on all network interfaces** in **Local proxy settings** and configure the proxy manually on the downstream devices.
+Under **Proxy settings → Tethering sharing**, check the tethering types you use (Wi-Fi / USB / Bluetooth / Ethernet); in TUN mode and AsteriskBOX's eBPF mode, enter the actual downstream interface names. VPN Service mode cannot transparently proxy tethered devices; instead, turn on **Listen on all network interfaces** in **Local proxy settings** and configure the proxy manually on the downstream devices.
 
 ### Whitelist / blacklist are unavailable with FakeDNS on
 
-When FakeDNS / FakeIP is enabled in a ROOT mode, only all-app mode is supported — this is by design. Turn off FakeDNS if you need per-app proxy.
+When FakeDNS / FakeIP is enabled in a ROOT mode, only all-app mode is supported by default, and a selected whitelist / blacklist is treated as all-app. Two ways around it:
+
+- Turn on [Application list enhancement](./run-modes#enhance) in TPROXY, TUN2SOCKS, or BPF2SOCKS mode. System DNS is then split by the per-app list, so FakeDNS works together with whitelist / blacklist;
+- or turn off FakeDNS.
 
 ## Background and battery
 
@@ -87,4 +90,4 @@ Yes, they have different package names. In VPN Service mode only one VPN can be 
 
 ### How do I switch AsteriskMETA between Mihomo and Meow?
 
-Download the APK of the other core edition and install it over the current one; your data is kept. The Meow edition does not support TUN (ROOT), so switch to another mode first if you are using it.
+Download the APK of the other core edition and install it over the current one; your data is kept. The Meow edition does not support TUN (ROOT): if you were using TUN (ROOT) before installing the Meow edition, the app automatically resets the run mode to the default VPN Service and turns off start on boot, so re-check the run mode after switching.

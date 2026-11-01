@@ -31,7 +31,7 @@ Common actions (in the page's overflow menu):
 - Pull down to refresh the installed app list.
 
 ::: tip
-When FakeDNS / FakeIP is enabled in a ROOT mode, only all-app mode is available.
+When FakeDNS / FakeIP is enabled in a ROOT mode, only all-app mode is available by default; with [Application list enhancement](./run-modes#enhance) on in TPROXY, TUN2SOCKS, or BPF2SOCKS mode, whitelist / blacklist work again.
 :::
 
 ## Resource management {#resources}

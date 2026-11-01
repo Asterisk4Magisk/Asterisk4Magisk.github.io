@@ -16,7 +16,7 @@ AsteriskMETA 是基于 **Mihomo**（Clash Meta）或 **Meow** 核心的客户端
 | APK 文件名 | 不带 `-meow` | 带 `-meow` |
 | 运行模式 | VPN Service、TPROXY、TUN、TUN2SOCKS、BPF2SOCKS | 同左，但**不支持 TUN（ROOT）** |
 
-两版包名相同，直接覆盖安装即可切换，用户数据保留。
+两版包名相同，直接覆盖安装即可切换，用户数据保留。若切换到 Meow 版时正在使用 TUN（ROOT），运行模式会自动恢复为 VPN Service，并关闭开机自启。
 
 ## 首页 {#home}
 

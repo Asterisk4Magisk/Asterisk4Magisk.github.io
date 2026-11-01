@@ -115,6 +115,7 @@ To see how rules are written into the Xray config and which domain forms are sup
 
 | Setting | Notes |
 | --- | --- |
+| **Enable DNS hijacking** | Let the core handle DNS requests |
 | **FakeDNS** and **FakeDNS pool** | Assigns virtual IPs to domains for faster connections and domain-based routing |
 | **Direct DNS** and **Direct DNS domains** | Which domains are resolved by the direct DNS |
 | **Use direct DNS to resolve proxy servers** | Resolve the proxy servers' own domains with direct DNS |
