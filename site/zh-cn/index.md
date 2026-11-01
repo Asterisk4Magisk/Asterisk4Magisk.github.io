@@ -10,7 +10,7 @@ head:
   - [link, { rel: alternate, hreflang: x-default, href: 'https://asterisk4magisk.github.io/' }]
   - [meta, { property: 'og:type', content: website }]
   - [meta, { property: 'og:title', content: 'Asterisk App Family｜面向 Android 的开源代理客户端' }]
-  - [meta, { property: 'og:description', content: '在 Xray、Mihomo 和 sing-box 之间选择适合你的 Android 代理客户端。' }]
+  - [meta, { property: 'og:description', content: '在 Xray、Mihomo/Meow 和 sing-box 之间选择适合你的 Android 代理客户端。' }]
   - [meta, { property: 'og:url', content: 'https://asterisk4magisk.github.io/zh-cn/' }]
   - [meta, { property: 'og:image', content: 'https://asterisk4magisk.github.io/og.png' }]
   - [meta, { property: 'og:locale', content: zh_CN }]
@@ -32,8 +32,8 @@ features:
     details: 默认 VPN Service 模式开箱即用，覆盖日常应用级代理场景。
   - title: 为 ROOT 场景而生
     details: 提供透明代理运行方式，拥有系统级代理与共享能力。
-  - title: 三种核心选择
-    details: 依附成熟的社区代理生态，提供 Xray、Mihomo 和 sing-box 版本。
+  - title: 多种核心选择
+    details: 依附成熟的社区代理生态，提供 Xray、Mihomo/Meow 和 sing-box 版本。
   - title: 开源且现代
     details: 采用现代 Android UI，并以 GPL-3.0 协议开放源代码。
 ---

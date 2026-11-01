@@ -10,7 +10,7 @@ head:
   - [link, { rel: alternate, hreflang: x-default, href: 'https://asterisk4magisk.github.io/' }]
   - [meta, { property: 'og:type', content: website }]
   - [meta, { property: 'og:title', content: 'Asterisk App Family | Open-source proxy clients for Android' }]
-  - [meta, { property: 'og:description', content: 'The Asterisk App Family offers Android proxy clients powered by Xray, Mihomo, and sing-box.' }]
+  - [meta, { property: 'og:description', content: 'The Asterisk App Family offers Android proxy clients powered by Xray, Mihomo/Meow, and sing-box.' }]
   - [meta, { property: 'og:url', content: 'https://asterisk4magisk.github.io/en/' }]
   - [meta, { property: 'og:image', content: 'https://asterisk4magisk.github.io/og.png' }]
   - [meta, { property: 'og:locale', content: en_US }]
@@ -32,8 +32,8 @@ features:
     details: Ready to use in VPN Service mode by default for everyday, app-level proxying.
   - title: Built for rooted devices
     details: Use transparent proxy modes with system-wide proxying and network sharing.
-  - title: Three core editions
-    details: Built on mature community proxy ecosystems, with Xray, Mihomo, and sing-box editions.
+  - title: Multiple core editions
+    details: Built on mature community proxy ecosystems, with Xray, Mihomo/Meow, and sing-box editions.
   - title: Open source, by design
     details: Built with a modern Android UI and licensed under GPL-3.0.
 ---

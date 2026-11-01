@@ -12,7 +12,7 @@ export const products = Object.freeze([
   {
     id: 'meta',
     name: 'AsteriskMETA',
-    core: 'Mihomo',
+    core: 'Mihomo/Meow',
     icon: '/apps/asterisk-meta.png',
     repoUrl: `${repoBase}/AsteriskMETA`,
     releaseUrl: `${repoBase}/AsteriskMETA/releases/latest`
