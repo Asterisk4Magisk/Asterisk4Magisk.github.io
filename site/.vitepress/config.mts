@@ -1,6 +1,41 @@
 import { defineConfig } from 'vitepress'
 
 const github = 'https://github.com/Asterisk4Magisk'
+const telegram = 'https://t.me/AsteriskFactory'
+
+function guideSidebar(base: string, labels: { start: string, shared: string, apps: string, help: string }, text: Record<string, string>) {
+  return [
+    {
+      text: labels.start,
+      items: [
+        { text: text.index, link: `${base}/` },
+        { text: text.gettingStarted, link: `${base}/getting-started` }
+      ]
+    },
+    {
+      text: labels.shared,
+      items: [
+        { text: text.runModes, link: `${base}/run-modes` },
+        { text: text.common, link: `${base}/common` }
+      ]
+    },
+    {
+      text: labels.apps,
+      items: [
+        { text: 'AsteriskNG', link: `${base}/ng` },
+        { text: 'AsteriskMETA', link: `${base}/meta` },
+        { text: 'AsteriskBOX', link: `${base}/box` }
+      ]
+    },
+    {
+      text: labels.help,
+      items: [
+        { text: text.automation, link: `${base}/automation` },
+        { text: text.faq, link: `${base}/faq` }
+      ]
+    }
+  ]
+}
 
 export default defineConfig({
   title: 'Asterisk App Family',
@@ -22,42 +57,85 @@ export default defineConfig({
       lang: 'zh-CN',
       link: '/zh-cn/',
       title: 'Asterisk App Family',
-      description: '面向 Android 的开源代理客户端系列'
+      description: '面向 Android 的开源代理客户端系列',
+      themeConfig: {
+        nav: [
+          { text: '应用', link: '/zh-cn/#apps' },
+          { text: '文档', link: '/zh-cn/guide/', activeMatch: '^/zh-cn/guide/' },
+          { text: '社区', link: telegram }
+        ],
+        sidebar: {
+          '/zh-cn/guide/': guideSidebar('/zh-cn/guide',
+            { start: '开始', shared: '通用', apps: '应用专属', help: '进阶与帮助' },
+            {
+              index: '文档概览',
+              gettingStarted: '快速开始',
+              runModes: '运行模式与 ROOT',
+              common: '通用功能',
+              automation: '自动化与外部控制',
+              faq: '常见问题与排错'
+            })
+        },
+        docFooter: { prev: '上一页', next: '下一页' },
+        sidebarMenuLabel: '目录',
+        outline: { level: [2, 3], label: '本页内容' },
+        returnToTopLabel: '返回顶部',
+        darkModeSwitchLabel: '外观',
+        lightModeSwitchTitle: '切换到浅色模式',
+        darkModeSwitchTitle: '切换到深色模式',
+        langMenuLabel: '切换语言'
+      }
     },
     en: {
       label: 'English',
       lang: 'en',
       link: '/en/',
       title: 'Asterisk App Family',
-      description: 'Open-source proxy clients for Android'
+      description: 'Open-source proxy clients for Android',
+      themeConfig: {
+        nav: [
+          { text: 'Apps', link: '/en/#apps' },
+          { text: 'Guide', link: '/en/guide/', activeMatch: '^/en/guide/' },
+          { text: 'Community', link: telegram }
+        ],
+        sidebar: {
+          '/en/guide/': guideSidebar('/en/guide',
+            { start: 'Start here', shared: 'Shared', apps: 'App-specific', help: 'Advanced & help' },
+            {
+              index: 'Overview',
+              gettingStarted: 'Getting started',
+              runModes: 'Run modes & root',
+              common: 'Common features',
+              automation: 'Automation & control',
+              faq: 'FAQ & troubleshooting'
+            })
+        },
+        outline: { level: [2, 3], label: 'On this page' },
+        returnToTopLabel: 'Return to top',
+        darkModeSwitchLabel: 'Appearance',
+        langMenuLabel: 'Change language'
+      }
     }
   },
   themeConfig: {
     siteTitle: 'Asterisk App Family',
     appearance: true,
     socialLinks: [{ icon: 'github', link: github }],
-    locales: {
-      'zh-cn': {
-        nav: [
-          { text: '应用', link: '/zh-cn/#apps' },
-          { text: '核心能力', link: '/zh-cn/#features' },
-          { text: '社区', link: '/zh-cn/#community' }
-        ],
-        outlineTitle: '本页内容',
-        returnToTopLabel: '返回顶部',
-        darkModeSwitchLabel: '外观',
-        langMenuLabel: '切换语言'
-      },
-      en: {
-        nav: [
-          { text: 'Apps', link: '/en/#apps' },
-          { text: 'Capabilities', link: '/en/#features' },
-          { text: 'Community', link: '/en/#community' }
-        ],
-        outlineTitle: 'On this page',
-        returnToTopLabel: 'Return to top',
-        darkModeSwitchLabel: 'Appearance',
-        langMenuLabel: 'Change language'
+    search: {
+      provider: 'local',
+      options: {
+        locales: {
+          'zh-cn': {
+            translations: {
+              button: { buttonText: '搜索', buttonAriaLabel: '搜索' },
+              modal: {
+                noResultsText: '没有找到相关结果',
+                resetButtonTitle: '清除查询',
+                footer: { selectText: '选择', navigateText: '切换', closeText: '关闭' }
+              }
+            }
+          }
+        }
       }
     }
   }
