@@ -54,7 +54,7 @@ AsteriskNG 是基于 **Xray** 核心的客户端，以「节点列表」为中�
 | Hysteria2 | 支持带宽设置、端口跳跃与 salamander 混淆 |
 | WireGuard | 填写密钥、本地地址、MTU、Reserved 等 |
 | MASQUE | 基于 HTTP 的 IP 代理，可选 WARP 设置 |
-| Custom | 直接粘贴 Xray JSON（完整配置或仅出站）；可选 **覆写入站设置和 DNS 设置**，改用 AsteriskNG 提供的入站与 DNS |
+| Custom | 直接粘贴 Xray JSON（完整配置或仅出站）；可选 **覆写入站设置和 DNS 设置**，改用 AsteriskNG 提供的入站与 DNS。覆写规则见 [Xray 配置 · Custom 节点](./core-xray#custom) |
 | 策略组 | 见下文 |
 | 链式代理 | 见下文 |
 
@@ -68,9 +68,17 @@ AsteriskNG 是基于 **Xray** 核心的客户端，以「节点列表」为中�
 - **订阅分组**：节点来源，可选某个分组或 **全部分组**。
 - **别名正则过滤**：用正则表达式按节点名称筛选，例如 `香港|HK`。
 
+::: details 核心实现
+策略组会生成 Xray `routing.balancers` 中的负载均衡器，类型对应 `leastPing`、`leastLoad`、`random`、`roundRobin`。「最低延迟」依赖 `observatory` 定期测速，「最低负载」依赖 `burstObservatory` 综合延迟与稳定性。详见 [Xray 配置 · 节点如何变成出站](./core-xray#outbounds)。
+:::
+
 ### 链式代理
 
 链式代理让流量依次经过多个节点（**代理链成员**，至少两个），例如「中转节点 → 落地节点」。列表中会显示链的跳数。
+
+::: details 核心实现
+每个成员生成一个出站，后一跳的 `streamSettings.sockopt.dialerProxy` 指向前一跳，即后一跳的连接经由前一跳建立。
+:::
 
 ## 路由规则
 
@@ -99,6 +107,8 @@ AsteriskNG 是基于 **Xray** 核心的客户端，以「节点列表」为中�
 `geosite:` 与 `geoip:` 规则依赖资源文件，可在 **设置 → 常规 → 资源管理** 中切换 Loyalsoldier、V2Fly、Chocolate4U、RunetFreedom 等规则来源。
 :::
 
+想了解规则如何写入 Xray 配置、支持哪些域名写法，见 [Xray 配置 · 路由规则写法](./core-xray#routing-rules)。
+
 ## 核心设置
 
 ### DNS 设置
@@ -117,6 +127,13 @@ AsteriskNG 是基于 **Xray** 核心的客户端，以「节点列表」为中�
 - **Sniffing**：识别 HTTP / TLS 等目标域名辅助路由；开启 **routeOnly** 时嗅探到的域名仅用于路由，不改写连接目标。
 - **Mux**：连接复用，可降低延迟，但可能导致断流，请谨慎使用。可分别设置 **TCP 并发**、**XUDP 并发** 与 **QUIC 流量处理方式**（多路复用 / 原生 / 不代理）。
 - **Fragment**：拆分早期 TCP 流量，仅在需要时启用。可设置 **分片方式**、**分片包长** 与 **分片间隔**。
+
+::: details 核心实现
+- **FakeDNS** 对应 Xray 的 `fakeDns` 地址池；收到 DNS 查询时返回池中的虚拟 IP，连接时再还原为域名，因此路由可以按域名匹配。
+- **Sniffing** 对应入站的 `sniffing`，`routeOnly` 为 `true` 时，嗅探结果只参与路由，不替换连接目标。
+- **Mux** 写入节点出站的 `mux` 字段：`concurrency`、`xudpConcurrency`、`xudpProxyUDP443`。
+- **Fragment** 会生成标签为 `fragment` 的 `freedom` 出站，节点通过 `sockopt.dialerProxy` 经由它发出连接。
+:::
 
 ### 日志
 

@@ -3,7 +3,7 @@ import { defineConfig } from 'vitepress'
 const github = 'https://github.com/Asterisk4Magisk'
 const telegram = 'https://t.me/AsteriskFactory'
 
-function guideSidebar(base: string, labels: { start: string, shared: string, apps: string, help: string }, text: Record<string, string>) {
+function guideSidebar(base: string, labels: { start: string, shared: string, apps: string, core: string, help: string }, text: Record<string, string>) {
   return [
     {
       text: labels.start,
@@ -25,6 +25,14 @@ function guideSidebar(base: string, labels: { start: string, shared: string, app
         { text: 'AsteriskNG', link: `${base}/ng` },
         { text: 'AsteriskMETA', link: `${base}/meta` },
         { text: 'AsteriskBOX', link: `${base}/box` }
+      ]
+    },
+    {
+      text: labels.core,
+      items: [
+        { text: text.coreXray, link: `${base}/core-xray` },
+        { text: text.coreMihomo, link: `${base}/core-mihomo` },
+        { text: text.coreSingbox, link: `${base}/core-singbox` }
       ]
     },
     {
@@ -66,12 +74,15 @@ export default defineConfig({
         ],
         sidebar: {
           '/zh-cn/guide/': guideSidebar('/zh-cn/guide',
-            { start: '开始', shared: '通用', apps: '应用专属', help: '进阶与帮助' },
+            { start: '开始', shared: '通用', apps: '应用专属', core: '核心配置', help: '进阶与帮助' },
             {
               index: '文档概览',
               gettingStarted: '快速开始',
               runModes: '运行模式与 ROOT',
               common: '通用功能',
+              coreXray: 'Xray（AsteriskNG）',
+              coreMihomo: 'Mihomo（AsteriskMETA）',
+              coreSingbox: 'sing-box（AsteriskBOX）',
               automation: '自动化与外部控制',
               faq: '常见问题与排错'
             })
@@ -100,12 +111,15 @@ export default defineConfig({
         ],
         sidebar: {
           '/en/guide/': guideSidebar('/en/guide',
-            { start: 'Start here', shared: 'Shared', apps: 'App-specific', help: 'Advanced & help' },
+            { start: 'Start here', shared: 'Shared', apps: 'App-specific', core: 'Core configuration', help: 'Advanced & help' },
             {
               index: 'Overview',
               gettingStarted: 'Getting started',
               runModes: 'Run modes & root',
               common: 'Common features',
+              coreXray: 'Xray (AsteriskNG)',
+              coreMihomo: 'Mihomo (AsteriskMETA)',
+              coreSingbox: 'sing-box (AsteriskBOX)',
               automation: 'Automation & control',
               faq: 'FAQ & troubleshooting'
             })

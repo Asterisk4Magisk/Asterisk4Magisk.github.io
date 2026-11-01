@@ -21,7 +21,7 @@ Both editions share a package name: install one over the other to switch; your d
 ## Home {#home}
 
 - **Start service** / **Stop service**, plus uptime, the current profile, and the current proxy.
-- **Proxy mode**: **Rule** (route by the profile's rules), **Global** (everything through the proxy group), **Direct**.
+- **Proxy mode**: **Rule** (route by the profile's rules), **Global** (everything through the proxy selected in the `GLOBAL` group), **Direct**. This maps to Mihomo's `mode` field and is written by the app when you switch, so the subscription does not change.
 - **Subscription**: when the subscription reports usage, shows used, remaining, total, and expiry.
 - Four monitor cards — tap one for details:
 
@@ -75,6 +75,8 @@ When editing a profile, you can pick an **Override script** or turn on **Disable
 - **Override script**: transforms the profile with JavaScript before the service starts.
 - **Disable all overrides** (**Raw profile**): loads the YAML exactly as-is; neither app settings nor override scripts apply. The corresponding settings are shown read-only as **From YAML**. If required fields such as ports are missing the service may fail to start; the app shows a configuration check result.
 
+For which fields the app manages, the script API with examples, and what a raw profile must contain, see [Mihomo configuration](./core-mihomo).
+
 ## Override scripts
 
 **Settings → Advanced settings → Override script** manages all scripts: create, edit, duplicate, and delete. The editor can **Format JavaScript**.
@@ -85,7 +87,7 @@ Tap **Debug** and choose a **Temporary test profile** to run a script and see:
 - **Console**: anything the script prints with `console`;
 - **Summary**: how the number of proxies, policy groups, and rules changed.
 
-Use **Copy report** to share the result when troubleshooting.
+Use **Copy report** to share the result when troubleshooting. Scripts must define a synchronous `main(config)` function; see [Mihomo configuration · Override scripts](./core-mihomo#script) for the API and examples.
 
 ## Proxies
 
@@ -95,6 +97,12 @@ The **Proxies** page shows the profile's policy groups; tap a proxy to switch (o
 - **Locate current proxy**, **Search proxies**.
 - **Proxy display options**: group layout (**Expandable list** / **Top tabs**), proxy layout (auto / single / double / multiple columns), sort (default / delay / name), and **Interrupt connections** when switching.
 - Open **Providers** from the top-right to see **Proxy Providers** and **Rule Providers**, refresh one or all, and preview rule set contents.
+
+::: details Core implementation
+Policy groups come from the profile's `proxy-groups`. Common types: `select` (manual, switchable on this page), `url-test` (automatically picks the lowest latency), `fallback` (picks the first available in order), and `load-balance`. Automatic groups are probed by the core using the group's `url` and `interval`, and the core decides the current proxy itself, so they cannot be switched manually here.
+
+**Test group** uses the group's own test URL, or the test URL from **Connection test** if the group has none. With **Unified delay** (`unified-delay`) on, the core measures a second request on the established connection to exclude handshake time, which makes latencies across protocols more comparable.
+:::
 
 ## Settings
 
@@ -110,6 +118,15 @@ The **Proxies** page shows the profile's policy groups; tap a proxy to switch (o
 | **Connection test** | Test URL (used when a group does not specify one), test timeout, test concurrency, **Unified delay** |
 | **Automatic switching** | See below |
 | **Log level** | Verbosity of the core log |
+
+::: details Core implementation: DNS enhanced mode
+Mihomo's `dns.enhanced-mode` has two values:
+
+- `fake-ip`: domains resolve to virtual addresses from the **Fake IP range**, and the core maps them back to domains when connecting. Rules can match by domain, and resolution does not wait for the real answer. Domains in the **Fake IP filter** get real addresses — useful for LAN devices, NTP, game matchmaking, and other cases that need a real IP.
+- `redir-host`: returns real answers; more compatible, but domain-based routing relies on sniffing.
+
+With **Override DNS** off and an enabled `dns` block in the profile, the profile wins; see [Mihomo configuration · DNS merge rules](./core-mihomo#dns).
+:::
 
 ### Advanced settings
 
@@ -133,5 +150,5 @@ Checks use the test URL, timeout, and concurrency from **Connection test**. No s
 
 ::: warning
 - Automatic switching requires the built-in core; uploaded custom cores do not support it.
-- With a raw profile, the core follows the `asterisk-auto-switch` field in the YAML; the in-app settings are saved but not applied.
+- With a raw profile, the core follows the `asterisk-auto-switch` field in the YAML; the in-app settings are saved but not applied. See [Mihomo configuration · asterisk-auto-switch](./core-mihomo#auto-switch-field) for the field format.
 :::

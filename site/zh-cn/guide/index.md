@@ -34,7 +34,8 @@ Asterisk App Family 是三款面向 Android 的开源代理客户端。三款应
 3. 三款应用共有的功能（分应用代理、资源文件、通知与磁贴、隐私、备份还原、日志）见 [通用功能](./common)。
 4. 各应用专属的页面与配置，见 [AsteriskNG](./ng)、[AsteriskMETA](./meta)、[AsteriskBOX](./box)。
 5. 需要按 Wi-Fi、锁屏、定时自动启停，或用 Tasker / adb 控制，见 [自动化与外部控制](./automation)。
-6. 遇到问题时，先看 [常见问题与排错](./faq)。
+6. 想深入定制核心配置（Custom 节点、覆写脚本、原始配置），见核心配置：[Xray](./core-xray)、[Mihomo](./core-mihomo)、[sing-box](./core-singbox)。
+7. 遇到问题时，先看 [常见问题与排错](./faq)。
 
 ## 获取帮助
 

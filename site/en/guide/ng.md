@@ -54,7 +54,7 @@ Tap the add button and choose **Scan QR code**, **Import from clipboard**, **Imp
 | Hysteria2 | Bandwidth settings, port hopping, and salamander obfuscation |
 | WireGuard | Keys, local address, MTU, Reserved, and more |
 | MASQUE | IP proxying over HTTP, with optional WARP settings |
-| Custom | Paste Xray JSON (a full config or outbounds only); optionally **Override inbound and DNS settings** to use AsteriskNG's inbound and DNS instead |
+| Custom | Paste Xray JSON (a full config or outbounds only); optionally **Override inbound and DNS settings** to use AsteriskNG's inbound and DNS instead. See [Xray configuration · Custom servers](./core-xray#custom) for the rewrite rules |
 | Strategy group | See below |
 | Chain proxy | See below |
 
@@ -68,9 +68,17 @@ A strategy group picks an outbound automatically from a set of servers:
 - **Subscription group**: where the servers come from — one group or **All groups**.
 - **Remarks regex filter**: filter servers by name with a regular expression, e.g. `Hong Kong|HK`.
 
+::: details Core implementation
+A strategy group becomes a balancer in Xray's `routing.balancers`, with type `leastPing`, `leastLoad`, `random`, or `roundRobin`. "Least ping" relies on `observatory` for periodic probing; "Least Load" relies on `burstObservatory`, which weighs both latency and stability. See [Xray configuration · How servers become outbounds](./core-xray#outbounds).
+:::
+
 ### Proxy chains
 
 A proxy chain sends traffic through several servers in order (**Proxy chain members**, at least two), for example *relay server → exit server*. The list shows the number of hops.
+
+::: details Core implementation
+Each member becomes an outbound, and each later hop's `streamSettings.sockopt.dialerProxy` points to the previous hop, so the later hop's connection is made through the previous one.
+:::
 
 ## Routing rules
 
@@ -99,6 +107,8 @@ Use **Import from clipboard** / **Export to clipboard** to move rules in bulk; w
 `geosite:` and `geoip:` rules rely on resource files. Switch between Loyalsoldier, V2Fly, Chocolate4U, RunetFreedom, and other sources in **Settings → General → Resource management**.
 :::
 
+To see how rules are written into the Xray config and which domain forms are supported, read [Xray configuration · Writing routing rules](./core-xray#routing-rules).
+
 ## Core settings
 
 ### DNS settings
@@ -117,6 +127,13 @@ Use **Import from clipboard** / **Export to clipboard** to move rules in bulk; w
 - **Sniffing**: detects HTTP / TLS target domains to assist routing; with **routeOnly** on, sniffed domains are used for routing only and do not rewrite the destination.
 - **Mux**: connection multiplexing. Can lower latency but may cause stalls — use with care. Set **TCP concurrency**, **XUDP concurrency**, and **QUIC handling** (multiplex / native / don't proxy) separately.
 - **Fragment**: splits early TCP traffic; enable only when needed. Set **Fragment mode**, **Fragment length**, and **Fragment interval**.
+
+::: details Core implementation
+- **FakeDNS** maps to Xray's `fakeDns` pool: DNS queries get a virtual IP from the pool, which the core maps back to the domain when connecting, so routing can match by domain.
+- **Sniffing** maps to the inbound's `sniffing`; with `routeOnly` set to `true`, sniffed results are used for routing only and do not replace the destination.
+- **Mux** is written to the server outbound's `mux` field: `concurrency`, `xudpConcurrency`, `xudpProxyUDP443`.
+- **Fragment** adds a `freedom` outbound tagged `fragment`, and servers dial through it via `sockopt.dialerProxy`.
+:::
 
 ### Logs
 

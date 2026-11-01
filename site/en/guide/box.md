@@ -27,7 +27,7 @@ The bottom navigation has four tabs: **Home**, **Proxies**, **Groups**, and **Se
 ## Home
 
 - **Start service** / **Stop service**, service status and uptime, plus today's traffic and live speed.
-- **Proxy mode**: **Rule** / **Global** / **Direct**.
+- **Proxy mode**: **Rule** / **Global** / **Direct**, implemented with `clash_mode` conditions in the routing rules; see [sing-box configuration · Routing rule order](./core-singbox#route-order).
 - The same **Traffic**, **Connections**, **Resource**, and **Network** monitor cards as AsteriskMETA; see [AsteriskMETA · Home](./meta#home).
 
 ## Groups and outbounds
@@ -88,6 +88,10 @@ URLTest options:
 
 You can also choose whether existing connections are closed when the selected outbound changes.
 
+::: details Core implementation
+Selector and URLTest map to sing-box's `selector` and `urltest` outbounds. URLTest sends a request to the **Test URL** every **Test interval** and only switches when a faster server beats the current one by more than the **Tolerance**, to avoid flapping; after the **Idle timeout** without traffic it pauses testing to save battery. **Failover** and **Maximum acceptable delay** are extensions provided by the bundled core.
+:::
+
 ### Endpoint management
 
 **Endpoints** are sing-box's VPN-tunnel style outbounds:
@@ -112,6 +116,12 @@ Import sing-box endpoint JSON directly, or WireGuard, OpenVPN, and OpenConnect c
 - **DNS rules**: match by domain, query type, response content, and more, with actions **Route**, **Reject**, **Predefined response**, **Evaluate**, and **Respond**.
 - **FakeIP** and **Persist FakeIP mappings**; cache options include LRU cache capacity, **Optimistic DNS cache**, **Persist DNS cache**, and more.
 
+::: details Core implementation
+DNS rules are matched in order, and the first match decides what happens, via the `action` field of sing-box DNS rules: **Route** sends the query to a given server, **Reject** refuses it, and **Predefined response** answers with the records you entered. Queries that match no rule go to the **Default DNS server**.
+
+The proxy servers' own domains are resolved by the **Outbound domain resolver** (`route.default_domain_resolver`), so connecting to a proxy never depends on DNS through that same proxy.
+:::
+
 ### Routing management
 
 **Routing management** maps to sing-box's `route` section:
@@ -123,6 +133,10 @@ Import sing-box endpoint JSON directly, or WireGuard, OpenVPN, and OpenConnect c
 ### Protocol sniffing
 
 Inserts a sing-box sniff action before the routing rules. Available sniffers: HTTP, TLS, and QUIC (which extract target domains), plus DNS, BitTorrent, DTLS, NTP, RDP, SSH, and STUN (for protocol-based routing). **Sniff timeout** defaults to 300ms.
+
+::: details Core implementation
+Recent sing-box versions no longer configure sniffing on inbounds; they use the `sniff` route rule action instead. The app places it at the very top of `route.rules`, and the sniffed domain and protocol are then available to later rules' `domain`, `protocol`, and similar conditions.
+:::
 
 ### Resource management
 
@@ -143,5 +157,5 @@ Test URL, timeout, concurrency, and more; optionally start timing only after the
 
 ## Settings · Advanced
 
-- **Override script**: modify the generated configuration further with JavaScript. Debugging shows the output JSON, console output, and warnings, and can copy a report.
+- **Override script**: modify the generated configuration further with JavaScript. Debugging shows the output JSON, console output, and warnings, and can copy a report. See [sing-box configuration](./core-singbox) for the script API, tag names, and examples.
 - **Broadcast control**, IPv6 and **IPv6 preferred**.
