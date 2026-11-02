@@ -65,6 +65,14 @@ When FakeDNS / FakeIP is enabled in a ROOT mode, only all-app mode is supported 
 - Turn on [Application list enhancement](./run-modes#enhance) in TPROXY, TUN2SOCKS, or BPF2SOCKS mode. System DNS is then split by the per-app list, so FakeDNS works together with whitelist / blacklist;
 - or turn off FakeDNS.
 
+### Google Play Store and Google Play services cannot connect on ColorOS / RedMagic OS
+
+ColorOS 16 and RedMagic OS add iptables rules to the system firewall that block the Google Play Store and Google Play services from going online, so they cannot connect even while the proxy is running. Flash the [ColorOS-Google-Firewall-Fixer](https://github.com/CHIZI-0618/ColorOS-Google-Firewall-Fixer) module (requires Magisk / KernelSU / APatch):
+
+- About 1 minute after boot completes, the module removes the REJECT / DROP rules from the `fw_INPUT`, `fw_OUTPUT`, `fw_OUTPUT_oplus_dns`, and `zte_fw_gms` chains (IPv4 and IPv6).
+- If the system adds the rules back later, tap the module's **Action** button in your root manager to clean them up again.
+- Cleanup records are saved to `reject_rules.log` in the module directory.
+
 ## Background and battery
 
 ### The system stops the proxy in the background

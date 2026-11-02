@@ -65,6 +65,14 @@ ROOT 模式开启 FakeDNS / FakeIP 时，默认只支持全应用模式，已选
 - 在 TPROXY、TUN2SOCKS 或 BPF2SOCKS 模式下开启 [应用名单增强](./run-modes#enhance)，系统 DNS 会按应用名单分流，FakeDNS 即可与白名单 / 黑名单同时使用；
 - 或者关闭 FakeDNS。
 
+### ColorOS / RedMagic OS 上 Google Play 商店与 Google Play 服务无法联网
+
+ColorOS 16 与 RedMagic OS 会在系统防火墙中添加 iptables 规则，拦截 Google Play 商店和 Google Play 服务联网，即使代理正常运行这些应用也无法连接。可以刷入 [ColorOS-Google-Firewall-Fixer](https://github.com/CHIZI-0618/ColorOS-Google-Firewall-Fixer) 模块（需要 Magisk / KernelSU / APatch）：
+
+- 模块在开机完成约 1 分钟后，自动清理 `fw_INPUT`、`fw_OUTPUT`、`fw_OUTPUT_oplus_dns`、`zte_fw_gms` 链中的 REJECT / DROP 规则（IPv4 与 IPv6）。
+- 如果系统之后又恢复了这些规则，可在 ROOT 管理器中点击该模块的 **操作** 按钮手动清理一次。
+- 清理记录保存在模块目录下的 `reject_rules.log`。
+
 ## 后台与耗电
 
 ### 代理在后台被系统停止
