@@ -67,11 +67,14 @@ When FakeDNS / FakeIP is enabled in a ROOT mode, only all-app mode is supported 
 
 ### Google Play Store and Google Play services cannot connect on ColorOS / RedMagic OS
 
-ColorOS 16 and RedMagic OS add iptables rules to the system firewall that block the Google Play Store and Google Play services from going online, so they cannot connect even while the proxy is running. Flash the [ColorOS-Google-Firewall-Fixer](https://github.com/CHIZI-0618/ColorOS-Google-Firewall-Fixer) module (requires Magisk / KernelSU / APatch):
+Once these systems decide that Google is unreachable, they actively cut Google apps off the network, so those apps cannot connect even while the proxy is running.
 
-- About 1 minute after boot completes, the module removes the REJECT / DROP rules from the `fw_INPUT`, `fw_OUTPUT`, `fw_OUTPUT_oplus_dns`, and `zte_fw_gms` chains (IPv4 and IPv6).
-- If the system adds the rules back later, tap the module's **Action** button in your root manager to clean them up again.
-- Cleanup records are saved to `reject_rules.log` in the module directory.
+**ColorOS 16 / 17**: the battery component checks whether Google is reachable after boot and whenever the network changes; when the check fails, it blocks networking for Google Play services, the Google Play Store, and ConfigUpdater. In VPN Service mode the check passes outright, so mainly ROOT modes are affected. Install the [GoogleFirewallFixer](https://github.com/Asterisk4Magisk/GoogleFirewallFixer) module (requires Zygisk and LSPosed):
+
+- Enable the module in LSPosed, make sure **Battery** is checked in its scope, then reboot;
+- The module only stops the battery component from blocking these Google apps and leaves the system firewall rules alone; network permissions you set in Data usage, as well as network cuts during deep sleep and app freezing, keep working.
+
+**RedMagic OS**: the system's **App optimization** drops traffic from Google Play services and the Google Play Store whenever it cannot reach Google, and re-checks periodically and on network or screen changes, so cleaning the firewall rules by hand is quickly undone. Turn off **App optimization** in **Developer options**; the system then lifts the restriction itself.
 
 ## Background and battery
 
