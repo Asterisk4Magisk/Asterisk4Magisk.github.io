@@ -74,15 +74,15 @@ export default defineConfig({
         ],
         sidebar: {
           '/zh-cn/guide/': guideSidebar('/zh-cn/guide',
-            { start: '开始', shared: '通用', apps: '应用专属', core: '核心配置', help: '进阶与帮助' },
+            { start: '开始', shared: '通用', apps: '应用', core: '核心', help: '进阶与帮助' },
             {
               index: '文档概览',
               gettingStarted: '快速开始',
               runModes: '运行模式与 ROOT',
               common: '通用功能',
-              coreXray: 'Xray（AsteriskNG）',
-              coreMihomo: 'Mihomo（AsteriskMETA）',
-              coreSingbox: 'sing-box（AsteriskBOX）',
+              coreXray: 'Xray',
+              coreMihomo: 'Mihomo',
+              coreSingbox: 'sing-box',
               automation: '自动化与外部控制',
               faq: '常见问题与排错'
             })
@@ -111,15 +111,15 @@ export default defineConfig({
         ],
         sidebar: {
           '/en/guide/': guideSidebar('/en/guide',
-            { start: 'Start here', shared: 'Shared', apps: 'App-specific', core: 'Core configuration', help: 'Advanced & help' },
+            { start: 'Start here', shared: 'Shared', apps: 'Apps', core: 'Core', help: 'Advanced & help' },
             {
               index: 'Overview',
               gettingStarted: 'Getting started',
               runModes: 'Run modes & root',
               common: 'Common features',
-              coreXray: 'Xray (AsteriskNG)',
-              coreMihomo: 'Mihomo (AsteriskMETA)',
-              coreSingbox: 'sing-box (AsteriskBOX)',
+              coreXray: 'Xray',
+              coreMihomo: 'Mihomo',
+              coreSingbox: 'sing-box',
               automation: 'Automation & control',
               faq: 'FAQ & troubleshooting'
             })

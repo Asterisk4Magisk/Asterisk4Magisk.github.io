@@ -32,9 +32,9 @@ The three apps have different package names and can be installed side by side, b
 1. First time: follow [Getting started](./getting-started) to install, import a subscription, and connect.
 2. To understand how traffic is captured, read [Run modes & root](./run-modes). On non-rooted devices you only need the VPN Service section.
 3. Features shared by all three apps (per-app proxy, resource files, notifications and tiles, privacy, backup and restore, logs) are in [Common features](./common).
-4. App-specific pages and settings: [AsteriskNG](./ng), [AsteriskMETA](./meta), [AsteriskBOX](./box).
+4. Pages and settings for each app: [AsteriskNG](./ng), [AsteriskMETA](./meta), [AsteriskBOX](./box).
 5. To start or stop automatically by Wi-Fi, lock screen, or schedule, or to control the app from Tasker / adb, see [Automation & control](./automation).
-6. To customize the core configuration in depth (Custom servers, override scripts, raw profiles), see the core configuration pages: [Xray](./core-xray), [Mihomo](./core-mihomo), [sing-box](./core-singbox).
+6. To customize the core configuration in depth (Custom servers, override scripts, raw profiles), see the core pages: [Xray](./core-xray), [Mihomo](./core-mihomo), [sing-box](./core-singbox).
 7. When something goes wrong, check [FAQ & troubleshooting](./faq) first.
 
 ## Getting help
