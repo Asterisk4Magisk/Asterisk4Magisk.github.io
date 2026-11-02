@@ -67,14 +67,13 @@ When FakeDNS / FakeIP is enabled in a ROOT mode, only all-app mode is supported 
 
 ### Google Play Store and Google Play services cannot connect on ColorOS / RedMagic OS
 
-Once these systems decide that Google is unreachable, they actively cut Google apps off the network, so those apps cannot connect even while the proxy is running.
+These systems check whether Google is reachable, and when the check fails they actively cut Google apps off the network, so those apps cannot connect even while the proxy is running. They check again on network changes and at other times, so lifting the restriction by hand is quickly undone. On ColorOS 16+ the battery component does this to Google Play services, the Google Play Store, and ConfigUpdater; in VPN Service mode its check passes outright, so mainly ROOT modes are affected. On RedMagicOS 8+ the system's **App optimization** does this to Google Play services and the Google Play Store.
 
-**ColorOS 16 / 17**: the battery component checks whether Google is reachable after boot and whenever the network changes; when the check fails, it blocks networking for Google Play services, the Google Play Store, and ConfigUpdater. In VPN Service mode the check passes outright, so mainly ROOT modes are affected. Install the [GoogleFirewallFixer](https://github.com/Asterisk4Magisk/GoogleFirewallFixer) module (requires Zygisk and LSPosed):
+Install the [GoogleFirewallFixer](https://github.com/Asterisk4Magisk/GoogleFirewallFixer) module (requires Zygisk and LSPosed):
 
-- Enable the module in LSPosed, make sure **Battery** is checked in its scope, then reboot;
-- The module only stops the battery component from blocking these Google apps and leaves the system firewall rules alone; network permissions you set in Data usage, as well as network cuts during deep sleep and app freezing, keep working.
-
-**RedMagic OS**: the system's **App optimization** drops traffic from Google Play services and the Google Play Store whenever it cannot reach Google, and re-checks periodically and on network or screen changes, so cleaning the firewall rules by hand is quickly undone. Turn off **App optimization** in **Developer options**; the system then lifts the restriction itself.
+- Download the build for your system: the ColorOS build for ColorOS 16+, the RedMagicOS build for RedMagicOS 8+;
+- Enable the module in LSPosed, make sure its scope is checked (**Battery** on ColorOS, **System Framework** on RedMagicOS), then reboot;
+- The module only stops the system from blocking these Google apps and leaves other restrictions alone: on ColorOS, network permissions you set in Data usage, as well as network cuts during deep sleep and app freezing, keep working; the RedMagicOS build also keeps the Google Play services push processes from being killed, so there is no need to turn off **App optimization**.
 
 ## Background and battery
 

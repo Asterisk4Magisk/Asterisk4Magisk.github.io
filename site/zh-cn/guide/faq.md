@@ -67,14 +67,13 @@ ROOT 模式开启 FakeDNS / FakeIP 时，默认只支持全应用模式，已选
 
 ### ColorOS / RedMagic OS 上 Google Play 商店与 Google Play 服务无法联网
 
-这两个系统在判断 Google 不可用后，会主动禁止 Google 应用联网，即使代理正常运行这些应用也无法连接。
+这两个系统会探测 Google 是否可达，探测失败就主动禁止 Google 应用联网，即使代理正常运行这些应用也无法连接；之后在网络变化等时机还会重新探测，手动解除的限制很快就会被恢复。ColorOS 16+ 由电池组件执行，涉及 Google Play 服务、Google Play 商店和 ConfigUpdater，VPN Service 模式下探测会直接判定为成功，因此主要影响 ROOT 模式；RedMagicOS 8+ 由系统的「应用优化」执行，涉及 Google Play 服务和 Google Play 商店。
 
-**ColorOS 16 / 17**：电池组件会在开机后和网络变化时探测 Google 是否可达，探测失败就把 Google Play 服务、Google Play 商店和 ConfigUpdater 设为禁止联网。VPN Service 模式下探测会直接判定为成功，因此主要影响 ROOT 模式。可以安装 [GoogleFirewallFixer](https://github.com/Asterisk4Magisk/GoogleFirewallFixer) 模块（需要 Zygisk 与 LSPosed）：
+可以安装 [GoogleFirewallFixer](https://github.com/Asterisk4Magisk/GoogleFirewallFixer) 模块（需要 Zygisk 与 LSPosed）：
 
-- 在 LSPosed 中启用模块，确认作用域勾选了「电池」，然后重启手机；
-- 模块只阻止电池组件对这几个 Google 应用禁网，不修改系统防火墙规则；流量管理中手动设置的联网开关，以及深度睡眠、应用冻结时的断网都保持不变。
-
-**RedMagic OS**：系统的「应用优化」会在探测不到 Google 时直接丢弃 Google Play 服务和 Google Play 商店的流量，并在网络或屏幕状态变化时、以及定期重新检查，手动清理防火墙规则很快就会被恢复。请在 **开发者选项** 中关闭 **应用优化**，系统会自行解除这项限制。
+- 按系统下载对应版本：ColorOS 16+ 使用 ColorOS 版，RedMagicOS 8+ 使用 RedMagicOS 版；
+- 在 LSPosed 中启用模块，确认作用域已勾选（ColorOS 为「电池」，RedMagicOS 为「系统框架」），然后重启手机；
+- 模块只阻止系统对这几个 Google 应用禁网，其他限制保持不变：ColorOS 上流量管理中手动设置的联网开关，以及深度睡眠、应用冻结时的断网照常生效；RedMagicOS 版还会避免查杀 Google Play 服务的推送进程，「应用优化」无需关闭。
 
 ## 后台与耗电
 
