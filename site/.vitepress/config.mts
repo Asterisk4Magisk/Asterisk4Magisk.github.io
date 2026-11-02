@@ -51,6 +51,10 @@ export default defineConfig({
   description: 'Open-source proxy clients for Android',
   cleanUrls: true,
   lastUpdated: false,
+  // Keep the browser tab title fixed to the site title on every page.
+  transformPageData(pageData, { siteConfig }) {
+    pageData.title = siteConfig.site.title
+  },
   head: [
     ['link', { rel: 'icon', type: 'image/png', href: '/brand/asterisk.png' }],
     ['link', { rel: 'apple-touch-icon', href: '/brand/asterisk.png' }]
