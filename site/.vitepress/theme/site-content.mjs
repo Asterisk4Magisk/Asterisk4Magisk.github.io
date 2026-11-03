@@ -46,8 +46,7 @@ export const localizedContent = Object.freeze({
         description: '将 sing-box 的代理、DNS、路由和 VPN 连接集中到一个应用中管理。',
         highlights: ['可分别配置出站、选择器、DNS 与路由规则', '可导入 WireGuard、OpenVPN 和 OpenConnect 配置']
       }
-    },
-    telegram: 'Telegram 频道'
+    }
   },
   en: {
     appsEyebrow: 'Three Android clients',
@@ -67,8 +66,7 @@ export const localizedContent = Object.freeze({
         description: 'Manage sing-box proxies, DNS, routing, and VPN connections in one app.',
         highlights: ['Configure outbounds, selectors, DNS, and routing rules separately', 'Import WireGuard, OpenVPN, and OpenConnect configurations']
       }
-    },
-    telegram: 'Telegram channel'
+    }
   }
 })
 

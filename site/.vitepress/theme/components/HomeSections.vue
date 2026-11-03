@@ -38,9 +38,6 @@ const copy = computed(() => getSiteContent(props.locale))
 
     <footer class="site-footer">
       <span class="site-footer__copyright">Copyright © 2026-present Asterisk4Magisk contributors.</span>
-      <nav :aria-label="copy.telegram">
-        <a href="https://t.me/Asterisk4Magisk" target="_blank" rel="noopener noreferrer">{{ copy.telegram }}</a>
-      </nav>
     </footer>
   </div>
 </template>

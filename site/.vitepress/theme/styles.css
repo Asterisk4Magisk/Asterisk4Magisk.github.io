@@ -112,21 +112,28 @@ html { scroll-behavior: smooth; }
 .button--ghost { border-color: var(--vp-c-divider); color: var(--vp-c-text-1); }
 .button--ghost:hover { border-color: var(--vp-c-brand-1); color: var(--vp-c-brand-1); }
 
+/* Keep top-nav text spacing even: draw the external-link arrow inside the item's right padding. */
+.VPNavBarMenu .VPNavBarMenuLink.VPLink { padding: 0 16px; }
+.VPNavBarMenuLink.vp-external-link-icon { position: relative; }
+.VPNavBarMenuLink.vp-external-link-icon::after {
+  position: absolute;
+  top: 50%;
+  left: calc(100% - 13px);
+  margin: 0;
+  transform: translateY(-50%);
+}
+
 .site-footer {
   display: flex;
-  align-items: flex-end;
-  justify-content: space-between;
-  gap: 24px;
+  justify-content: center;
   margin-top: 32px;
   padding: 26px 0 0;
   border-top: 1px solid var(--vp-c-divider);
   color: var(--vp-c-text-2);
   font-size: 13px;
+  text-align: center;
 }
 .site-footer__copyright { min-width: 0; }
-.site-footer nav { display: flex; flex: 0 0 auto; flex-wrap: wrap; justify-content: flex-end; gap: 10px 18px; }
-.site-footer a { color: var(--vp-c-text-2); text-decoration: none; }
-.site-footer a:hover { color: var(--vp-c-brand-1); }
 
 .language-gateway {
   width: min(680px, calc(100% - 40px));
@@ -147,8 +154,6 @@ button:focus-visible { outline: 3px solid var(--vp-c-brand-1); outline-offset: 3
   .app-grid { grid-template-columns: 1fr; }
   .app-card { min-height: 0; }
   .app-card > p { min-height: 0; }
-  .site-footer { align-items: center; flex-direction: column-reverse; justify-content: center; gap: 10px; text-align: center; }
-  .site-footer nav { justify-content: center; }
   .app-card__actions .button { flex: 1 1 140px; }
 }
 

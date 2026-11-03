@@ -1,6 +1,7 @@
 import { defineConfig } from 'vitepress'
 
 const github = 'https://github.com/Asterisk4Magisk'
+const telegramChannel = 'https://t.me/Asterisk4Magisk'
 const telegram = 'https://t.me/AsteriskFactory'
 
 function guideSidebar(base: string, labels: { start: string, shared: string, apps: string, core: string, help: string }, text: Record<string, string>) {
@@ -74,6 +75,7 @@ export default defineConfig({
         nav: [
           { text: '应用', link: '/zh-cn/#apps' },
           { text: '文档', link: '/zh-cn/guide/', activeMatch: '^/zh-cn/guide/' },
+          { text: '频道', link: telegramChannel },
           { text: '社区', link: telegram }
         ],
         sidebar: {
@@ -111,6 +113,7 @@ export default defineConfig({
         nav: [
           { text: 'Apps', link: '/en/#apps' },
           { text: 'Guide', link: '/en/guide/', activeMatch: '^/en/guide/' },
+          { text: 'Channel', link: telegramChannel },
           { text: 'Community', link: telegram }
         ],
         sidebar: {
