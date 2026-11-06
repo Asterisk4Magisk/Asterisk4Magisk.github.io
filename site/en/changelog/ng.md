@@ -12,7 +12,7 @@ Dates are GitHub Releases publication dates (UTC).
 ## 1.4.25 · 2026-11-03 {#v1-4-25}
 
 - **New**: share and export subscription groups — subscription QR code, copy subscription link, copy every server link in the group, or export links to a file. See [AsteriskNG · Subscription groups](../guide/ng#subscription-groups).
-- **New**: if the device is already on a network matching **Stop when Wi-Fi connects** at boot, start on boot keeps the proxy stopped. See [Automation · Wi-Fi control](../guide/automation#wi-fi-control).
+- **New**: in ROOT mode, if the device is already on a network matching **Stop when Wi-Fi connects** at boot, start on boot keeps the proxy stopped. See [Automation · Wi-Fi control](../guide/automation#wi-fi-control).
 - **Improved**: the Quick Settings tile follows the run mode, running state, and language in real time, and stays in its processing state until a toggle settles.
 - **Fixed**: a conflict when ROOT boot configuration was written while the proxy was starting or stopping.
 - **Other**: a hardened `:vpn` process boundary; traffic statistics now run in the `:service` process.
@@ -46,6 +46,7 @@ Dates are GitHub Releases publication dates (UTC).
 ## 1.4.20 · 2026-10-21 {#v1-4-20}
 
 - **Fixed**: AAAA queries return empty responses when FakeDNS is on, so IPv6 addresses do not bypass it.
+- **Core**: AndroidLibXrayLite updated to v26.10.22, with local DNS as the default.
 
 ## 1.4.19 · 2026-10-20 {#v1-4-19}
 
@@ -99,7 +100,7 @@ Dates are GitHub Releases publication dates (UTC).
 
 - **New**: drag-and-drop sorting for subscription groups.
 - **Improved**: "Enable local DNS" is renamed "Enable DNS hijacking".
-- **Fixed**: VPN process routing in Xray TUN mode.
+- **Fixed**: process conditions in routing rules did not match apps when the VPN Service used Xray's built-in TUN.
 
 ## 1.4.9 · 2026-09-18 {#v1-4-9}
 
@@ -243,7 +244,7 @@ Dates are GitHub Releases publication dates (UTC).
 ## 1.2.0 · 2026-05-31 {#v1-2-0}
 
 - **New**: TUN2SOCKS (ROOT) run mode, with a unified ROOT runtime.
-- **Fixed**: system dialogs follow the app language.
+- **Fixed**: in-app dialogs follow the app language setting.
 
 ## 1.1.1 · 2026-05-30 {#v1-1-1}
 

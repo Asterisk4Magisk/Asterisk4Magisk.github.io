@@ -19,9 +19,9 @@ Dates are GitHub Releases publication dates (UTC).
 
 ## 1.2.25 · 2026-11-03 {#v1-2-25}
 
-- **New**: the network activity card on Home is drawn as a dot waveform; switch back to **Two lines** with **Network activity chart** in the appearance settings.
+- **New**: the network activity card on Home is drawn as a dot waveform; switch to **Two lines** with **Network activity chart** in the appearance settings.
 - **Improved**: the resource monitor has separate CPU and memory cards; details add averages, uptime, today's traffic, and active connections.
-- **New**: if the device is already on a network matching **Stop when Wi-Fi connects** at boot, start on boot keeps the proxy stopped.
+- **New**: in ROOT mode, if the device is already on a network matching **Stop when Wi-Fi connects** at boot, start on boot keeps the proxy stopped.
 - **Improved**: the Quick Settings tile follows the running state in real time.
 - **Fixed**: with a custom core in ROOT mode, subscriptions no longer fail to sync because the built-in core rejects protocols or fields it does not know. See [Common features · Custom core](../guide/common#custom-core).
 - **Fixed**: a conflict when ROOT boot configuration was written while the proxy was starting or stopping.
@@ -38,12 +38,12 @@ Dates are GitHub Releases publication dates (UTC).
 
 - **New**: VPN Service mode can start on boot and supports Android's always-on VPN.
 - **New**: optionally interrupt existing connections when switching proxies.
-- **Improved**: the "Changes not applied" banner moved to the Profiles page and is simpler to clear.
+- **Improved**: the "Changes not applied yet" banner moved to the Profiles page and is simpler to clear.
 - **Fixed**: profiles can be imported when provider prefetch fails; relaxed DNS hijacking checks for raw configs.
 
 ## 1.2.22 · 2026-10-25 {#v1-2-22}
 
-- **New**: automatic switching can switch back once the original proxy recovers.
+- **New**: automatic switching supports **Switch back**, returning to the original proxy once it recovers.
 - **New**: real-time download speed in the status bar.
 - **Improved**: ROOT rules apply much faster; the core gets up to 15 seconds to become ready at startup.
 - **Fixed**: pending profile changes apply after leaving the page, with hot reload in VPN mode; manual syncs of unscheduled profiles are saved.
@@ -85,7 +85,7 @@ Dates are GitHub Releases publication dates (UTC).
 
 ## 1.2.14 · 2026-10-09 {#v1-2-14}
 
-- **New**: improved navigation on the Proxies page and public egress address monitoring.
+- **New**: locate the selected proxy on the Proxies page; egress address probing in network monitoring is dual-stack (IPv4 / IPv6) and shows the Cloudflare data center.
 - **Fixed**: network monitoring bypasses the local proxy when the service is stopped; private address ranges bypassed in ROOT modes.
 
 ## 1.2.13 · 2026-10-05 {#v1-2-13}
@@ -111,6 +111,7 @@ Dates are GitHub Releases publication dates (UTC).
 
 - **Improved**: "Enable local DNS" is renamed "Enable DNS hijacking"; page transitions keep rounded corners and dimmed backgrounds.
 - **Fixed**: asteriskd honors the configured runtime paths.
+- **Other**: custom resource files are removed from resource management; only the fixed Mihomo resources remain.
 
 ## 1.2.9 · 2026-09-18 {#v1-2-9}
 
@@ -140,7 +141,7 @@ Dates are GitHub Releases publication dates (UTC).
 ## 1.2.5 · 2026-08-30 {#v1-2-5}
 
 - **Fixed**: IKE and NAT-T traffic is bypassed so Wi-Fi Calling keeps working.
-- **Fixed**: IPv6 DNS hijacking in bpf2socks; the VPN runtime is released before starting a ROOT mode.
+- **Fixed**: IPv6 DNS hijacking in bpf2socks; the in-app standby Mihomo runtime is released before starting a ROOT mode.
 
 ## 1.2.4 · 2026-08-26 {#v1-2-4}
 

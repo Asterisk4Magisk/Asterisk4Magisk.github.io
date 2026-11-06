@@ -20,7 +20,7 @@ Dates are GitHub Releases publication dates (UTC).
 
 - **New**: share and export outbound groups — subscription QR code, copy subscription link, copy every outbound link in the group, or export links to a file. See [AsteriskBOX · Adding a group](../guide/box#adding-a-group).
 - **New**: the network activity card on Home is drawn as a dot waveform with an optional two-line style; the resource monitor has separate CPU and memory cards.
-- **New**: if the device is already on a network matching **Stop when Wi-Fi connects** at boot, start on boot keeps the proxy stopped.
+- **New**: in ROOT mode, if the device is already on a network matching **Stop when Wi-Fi connects** at boot, start on boot keeps the proxy stopped.
 - **Improved**: the Quick Settings tile follows the running state in real time.
 - **Fixed**: with a custom core in ROOT mode, import, save, and start are no longer rejected by the built-in core's checks.
 - **Fixed**: a crash caused by the default Mihomo provider fetcher.
