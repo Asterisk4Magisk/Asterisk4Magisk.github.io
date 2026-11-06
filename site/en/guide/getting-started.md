@@ -37,6 +37,10 @@ Only download APKs from the official GitHub Releases. The apps are GPL-3.0 licen
 
 The steps below use the default, non-root VPN Service mode.
 
+::: tip Local network permission on Android 17
+On Android 17 and later, the app asks for the **local network** permission together with the notification permission when it first opens. Grant it if you use proxy servers on your LAN, **Listen on all network interfaces**, or hotspot sharing; otherwise Android blocks those LAN connections.
+:::
+
 ### AsteriskNG
 
 1. **With a subscription URL**: open **Settings → Group management**, tap **Add subscription**, enter the URL, and save. Then go back to the **Proxy** page and tap **Update subscriptions** in the overflow menu.

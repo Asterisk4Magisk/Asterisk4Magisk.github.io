@@ -16,6 +16,8 @@ Modules in the UI
    │
    ├─ ② Override script main(config) (when enabled)
    │
+   ├─ ②′ Compile plugin outbounds (when using protocol plugins)
+   │
    ├─ ③ Validate the final config with the core
    │
    └─ ④ Run by the core

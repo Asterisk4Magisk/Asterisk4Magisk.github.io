@@ -25,6 +25,10 @@ Android shows a VPN connection request on first start; tap OK. If no prompt appe
 - Check whether another app has "Always-on VPN" / "Block connections without VPN" enabled in system settings, and turn it off.
 - Some vendor ROMs suppress the VPN prompt; select this app manually in the system VPN settings.
 
+### LAN servers or hotspot clients cannot connect on Android 17
+
+Starting with Android 17, LAN access requires the **local network** permission. If you denied it when the app first opened, allow local network access for the app under App info → Permissions, then restart the proxy service.
+
 ### Connected, but nothing loads
 
 - Use **Real connection test** (AsteriskNG) or **Test group** (AsteriskMETA) to confirm the server itself works.

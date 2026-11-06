@@ -24,6 +24,8 @@ Limit which networks count with the **SSID list** and **BSSID list**. The two li
 
 **Typical use**: stop the proxy automatically on your home Wi-Fi, and start it when you leave (Wi-Fi disconnects and you switch to mobile data).
 
+If the device is already connected at boot to a network that matches **Stop when Wi-Fi connects**, start on boot keeps the proxy service stopped. A manual start ignores the Wi-Fi state at that moment.
+
 ### Lock screen control
 
 With **Enable lock screen control** on, set **Start on lock / Stop on lock** and **Start on unlock / Stop on unlock**.

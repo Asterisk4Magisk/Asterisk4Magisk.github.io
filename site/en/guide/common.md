@@ -60,6 +60,8 @@ The **Core files** in resource management can be replaced with a core executable
 Some features depend on the built-in core, such as AsteriskMETA's [automatic switching](./meta#auto-switch). An uploaded core may not be compatible with the current app version; if anything breaks, restore the built-in core first.
 :::
 
+When AsteriskMETA or AsteriskBOX runs a custom core in ROOT mode, configurations are no longer checked with the built-in core on import, save, or start, so protocols or fields that only the custom core understands are not rejected; the custom core reports any errors when it starts. VPN Service mode keeps every check.
+
 ## Start on boot {#start-on-boot}
 
 Enable **Start on boot** under **Settings → Proxy settings (current mode)**:
@@ -72,13 +74,14 @@ Some vendor ROMs also require you to allow **auto-start / background activity** 
 ## Notifications and the Quick Settings tile
 
 - **Show statistics** (**Settings → Proxy settings (current mode)**): shows the current speed and total traffic in the notification and status bar.
-- **Quick Settings tile**: add the app's tile from the Quick Settings editor; tap it to start or stop the proxy, long-press to open the app. If the VPN permission has not been granted yet, grant it when prompted and tap the tile again.
+- **Quick Settings tile**: add the app's tile from the Quick Settings editor; tap it to start or stop the proxy, long-press to open the app. If the VPN permission has not been granted yet, grant it when prompted and tap the tile again. The tile follows the run mode, running state, and language in real time, including starts and stops triggered by service control in ROOT mode.
 
 ## Appearance and language
 
 - **Theme**: follow system, light, or dark. **Accent color** can follow the system default (dynamic color) or use a preset.
 - **Language**: AsteriskNG supports Simplified Chinese, English, Русский, and Tiếng Việt; AsteriskMETA and AsteriskBOX support Simplified Chinese and English.
 - **Auto-hide navigation bar** (AsteriskMETA / AsteriskBOX): hides the bottom navigation bar while you scroll up.
+- **Network activity chart** (AsteriskMETA / AsteriskBOX): the style of the network activity card on Home, either **Dots** (default) or **Two lines**.
 - AsteriskMETA / AsteriskBOX can search settings from the top of the settings page.
 
 ## Privacy {#privacy}

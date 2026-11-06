@@ -1,6 +1,6 @@
 ---
 title: AsteriskBOX
-description: AsteriskBOX (sing-box) guide — outbound groups and subscriptions, selectors, VPN endpoints, DNS management, routing management, sniffing, override scripts, and tools.
+description: AsteriskBOX (sing-box) guide — outbound groups and subscriptions, selectors, VPN endpoints, DNS management, routing management, sniffing, override scripts, protocol plugins, and tools.
 ---
 
 # AsteriskBOX
@@ -53,11 +53,13 @@ On the **Groups** page tap **Add group**:
 
 **Update all group subscriptions** downloads, decrypts, parses, validates, and saves each subscription in turn, then shows how many entries were imported / skipped / duplicated, and why any failed. Group cards show the subscription's used traffic, total, and expiry.
 
+**Share** in a group card's menu can show a **Subscription QR code**, **Copy subscription link**, copy the share links of every outbound in the group, or **Export links to file**. Outbounds without a standard share link are skipped; copying and exporting are unavailable while the group syncs.
+
 ### Outbounds
 
 Inside a group you can **Import outbound** (**Scan QR code**, **Import file**, clipboard) or **Add outbound** manually. Supported protocols:
 
-SOCKS, HTTP, NaiveProxy, Shadowsocks, VMess, Trojan, Hysteria, Hysteria 2, VLESS, ShadowTLS, TUIC, AnyTLS, Snell, SSH.
+SOCKS, HTTP, NaiveProxy, Shadowsocks, VMess, Trojan, Hysteria, Hysteria 2, VLESS, ShadowTLS, TUIC, AnyTLS, Snell, SSH, plus Mieru, ShadowQUIC, and Juicity through [protocol plugins](#plugins).
 
 The outbound editor follows sing-box's structure: **Server**, **Protocol**, **TLS** (including uTLS and Reality), **V2Ray transport** (HTTP, WebSocket, QUIC, gRPC, HTTPUpgrade), **Multiplex**, **QUIC**, and **Dial** (bind interface, domain resolver, timeouts, and network strategy).
 
@@ -67,7 +69,7 @@ If you change groups or outbounds while the service is running, the app shows **
 
 ## Proxies
 
-The **Proxies** page lists all selectors; tap a server to switch. The service must be started from Home first.
+The **Proxies** page lists all selectors; tap a server to switch. The service must be started from Home first. With the top-tab layout and many selectors, tap **Show all proxy groups** to list every selector in a sheet and jump to one.
 
 ## Settings · General
 
@@ -157,5 +159,30 @@ Test URL, timeout, concurrency, and more; optionally start timing only after the
 
 ## Settings · Advanced
 
+- **Plugins**: manage protocol plugins; see below.
 - **Override script**: modify the generated configuration further with JavaScript. Debugging shows the output JSON, console output, and warnings, and can copy a report. See [sing-box configuration](./core-singbox) for the script API, tag names, and examples.
 - **Broadcast control**, IPv6 and **IPv6 preferred**.
+
+## Protocol plugins {#plugins}
+
+Some protocols ship as separate plugin APKs that the sing-box core runs as child processes. **Settings → Advanced settings → Plugins** shows whether each plugin is installed; tap a missing one to open its download page:
+
+| Plugin | Purpose |
+| --- | --- |
+| Mieru | Mieru outbounds, with `mierus://` share links |
+| ShadowQUIC | ShadowQUIC outbounds, with `sq://` share links |
+| Juicity | Juicity outbounds, with `juicity://` share links |
+| Hysteria2 (optional) | Replaces the built-in implementation; port hopping is not supported |
+| NaiveProxy (optional) | Replaces the built-in implementation; QUIC is not supported |
+
+Under **Protocol implementations**, turn on **Use the Hysteria2 plugin** / **Use the NaiveProxy plugin** to run those outbounds through the plugin; leave them off to use the built-in implementation.
+
+::: warning
+- Only plugins signed by husi, SagerNet, Exclave, or Matsuri are recognized.
+- If the configuration uses an outbound whose plugin is not installed, the service does not start and names the plugin to install.
+- Options a plugin does not support (such as Hysteria2 port hopping or NaiveProxy QUIC) fail with an error instead of being silently dropped.
+:::
+
+::: details Implementation notes
+Plugin outbounds are compiled **after** the override script and before the core check into a loopback SOCKS outbound, and the plugin process makes the real connection. The configuration preview, script debugging, and validation therefore all see what actually runs. In VPN mode the plugins protect their own sockets so traffic does not loop back; in ROOT mode they dial through a direct mapping inbound.
+:::

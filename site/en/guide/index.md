@@ -11,9 +11,9 @@ This guide covers the following versions:
 
 | App | Version | Proxy core | Unit of configuration |
 | --- | --- | --- | --- |
-| [AsteriskNG](./ng) | 1.4.24 | Xray | Servers (share links / subscription groups) |
-| [AsteriskMETA](./meta) | 1.2.24 | Mihomo or Meow | Profiles (Clash / Mihomo YAML) |
-| [AsteriskBOX](./box) | 1.1.24 | sing-box | Outbound groups + selectors + routing |
+| [AsteriskNG](./ng) | 1.4.25 | Xray | Servers (share links / subscription groups) |
+| [AsteriskMETA](./meta) | 1.2.26 | Mihomo or Meow | Profiles (Clash / Mihomo YAML) |
+| [AsteriskBOX](./box) | 1.1.26 | sing-box | Outbound groups + selectors + routing |
 
 ::: tip UI labels
 Menu names shown in **bold** are taken from the apps' English UI. If you use another UI language, see the Chinese edition of this guide.

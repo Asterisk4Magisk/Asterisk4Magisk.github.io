@@ -29,7 +29,7 @@ Both editions share a package name: install one over the other to switch; your d
 | --- | --- |
 | **Traffic** | Today's total, this session's total, a 5-minute trend, and 7- / 30-day statistics. Traffic history is stored only in the app's private storage |
 | **Connections** | Active and closed connections; search and sort by rate / start time / target. Details show the matched rule, proxy chain, and source process. Close one or all connections |
-| **Resource** | CPU and memory usage of the core process, with peaks |
+| **Resource** | Separate CPU and memory cards with live values and trends; details include averages, uptime, today's traffic, and active connections |
 | **Network** | Local IPv4 / IPv6, default gateway, DNS servers, plus the public egress address and Cloudflare colo location |
 
 ::: info Privacy of the network status page
@@ -95,7 +95,7 @@ The **Proxies** page shows the profile's policy groups; tap a proxy to switch (o
 
 - **Test group**: test the latency of every proxy in a group.
 - **Locate current proxy**, **Search proxies**.
-- **Proxy display options**: group layout (**Expandable list** / **Top tabs**), proxy layout (auto / single / double / multiple columns), sort (default / delay / name), and **Interrupt connections** when switching.
+- **Proxy display options**: group layout (**Expandable list** / **Top tabs**), proxy layout (auto / single / double / multiple columns), sort (default / delay / name), and **Interrupt connections** when switching. With top tabs and many groups, tap **Show all proxy groups** to list every group in a sheet and jump to one.
 - Open **Providers** from the top-right to see **Proxy Providers** and **Rule Providers**, refresh one or all, and preview rule set contents.
 
 ::: details Core implementation

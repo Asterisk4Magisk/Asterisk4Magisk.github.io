@@ -1,6 +1,6 @@
 ---
 title: AsteriskBOX
-description: AsteriskBOX（sing-box）使用说明：出站分组与订阅、选择器、VPN 端点、DNS 管理、路由管理、嗅探、覆写脚本与工具。
+description: AsteriskBOX（sing-box）使用说明：出站分组与订阅、选择器、VPN 端点、DNS 管理、路由管理、嗅探、覆写脚本、协议插件与工具。
 ---
 
 # AsteriskBOX
@@ -53,11 +53,13 @@ AsteriskBOX 是基于 **sing-box** 核心的客户端。它把 sing-box 配置�
 
 **更新全部分组订阅** 会依次下载、解密、解析、校验并保存每个订阅，完成后显示导入 / 跳过 / 重复数量与失败原因。分组卡片显示订阅的已用流量、总量与到期时间。
 
+分组卡片菜单中的 **分享** 可以显示 **订阅二维码**、**复制订阅链接**、复制组内全部出站的分享链接，或 **导出链接到文件**。没有标准分享链接的出站会被跳过；分组同步期间无法复制或导出。
+
 ### 出站
 
 在分组中可以 **导入出站**（**扫描二维码**、**从文件导入**、剪贴板）或 **手动添加**。支持的出站协议：
 
-SOCKS、HTTP、NaiveProxy、Shadowsocks、VMess、Trojan、Hysteria、Hysteria 2、VLESS、ShadowTLS、TUIC、AnyTLS、Snell、SSH。
+SOCKS、HTTP、NaiveProxy、Shadowsocks、VMess、Trojan、Hysteria、Hysteria 2、VLESS、ShadowTLS、TUIC、AnyTLS、Snell、SSH；以及通过 [协议插件](#plugins) 支持的 Mieru、ShadowQUIC、Juicity。
 
 出站编辑器按 sing-box 的结构分为若干区块：**服务器**、**协议**、**TLS**（含 uTLS 与 Reality）、**V2Ray 传输层**（HTTP、WebSocket、QUIC、gRPC、HTTPUpgrade）、**多路复用**、**QUIC** 和 **拨号**（绑定接口、域名解析器、超时与网络策略）。
 
@@ -67,7 +69,7 @@ SOCKS、HTTP、NaiveProxy、Shadowsocks、VMess、Trojan、Hysteria、Hysteria 2
 
 ## 代理
 
-**代理** 页列出所有选择器，点击节点即可切换，需要先在首页启动服务。
+**代理** 页列出所有选择器，点击节点即可切换，需要先在首页启动服务。使用顶栏标签页布局且选择器较多时，点击 **展开代理组** 可在面板中列出全部选择器并快速跳转。
 
 ## 设置 · 常规
 
@@ -157,5 +159,30 @@ DNS 规则按顺序匹配，首条命中的规则决定处理方式，对应 sin
 
 ## 设置 · 高级
 
+- **插件**：管理协议插件，见下文。
 - **覆写脚本**：在生成配置后用 JavaScript 进一步修改。调试时可查看输出 JSON、Console 与警告，并复制报告。脚本接口、标签命名与示例见 [sing-box 配置](./core-singbox)。
 - **广播控制**、IPv6 与 **IPv6 优先**。
+
+## 协议插件 {#plugins}
+
+部分协议以独立的插件 APK 分发，安装后由 sing-box 核心作为子进程运行。**设置 → 高级设置 → 插件** 列出各插件的安装状态，未安装时点按即可前往下载页：
+
+| 插件 | 用途 |
+| --- | --- |
+| Mieru | 提供 Mieru 出站，支持 `mierus://` 分享链接 |
+| ShadowQUIC | 提供 ShadowQUIC 出站，支持 `sq://` 分享链接 |
+| Juicity | 提供 Juicity 出站，支持 `juicity://` 分享链接 |
+| Hysteria2（可选） | 替代内置实现，不支持端口跳跃 |
+| NaiveProxy（可选） | 替代内置实现，不支持 QUIC |
+
+在 **协议实现** 中开启 **使用 Hysteria2 插件** / **使用 NaiveProxy 插件** 后，对应出站改由插件运行；关闭时使用内置实现。
+
+::: warning
+- 应用只识别由 husi、SagerNet、Exclave 或 Matsuri 签名的插件。
+- 配置中使用了未安装插件的出站时，服务不会启动，并提示需要安装的插件。
+- 插件不支持的选项（如 Hysteria2 的端口跳跃、NaiveProxy 的 QUIC）会直接报错，而不是被静默忽略。
+:::
+
+::: details 核心实现
+插件出站在覆写脚本**之后**、核心校验之前被编译成一个本地回环的 SOCKS 出站，由插件进程负责实际连接，因此配置预览、脚本调试与校验看到的都是实际运行的配置。VPN 模式下插件自行保护其套接字以免流量回环；ROOT 模式下插件经由一个直连映射入站发起连接。
+:::

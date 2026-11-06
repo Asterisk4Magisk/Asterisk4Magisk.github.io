@@ -26,6 +26,8 @@ Subscriptions are managed in **Settings → General → Group management**. A gr
 | **Mihomo Age secret key** | Decrypts subscriptions encrypted with Age |
 | **Update via proxy** | Requests the subscription URL through the local proxy — useful when the URL itself is blocked |
 
+The **Share subscription group** menu on a group card can show a **Subscription QR code**, **Copy subscription link**, copy the share links of every server in the group, or **Export links to file**. Only the subscription URL itself is shared; the User-Agent, HWID, and Age secret key are not exported.
+
 Tap **Update subscriptions** in the overflow menu of the **Proxy** page to update all subscription groups. With multiple groups, enable **Enable "All" group** in settings to show a combined group at the top of the server list.
 
 ## Server list

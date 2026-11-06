@@ -11,9 +11,9 @@ Asterisk App Family 是三款面向 Android 的开源代理客户端。三款应
 
 | 应用 | 版本 | 代理核心 | 配置的基本单位 |
 | --- | --- | --- | --- |
-| [AsteriskNG](./ng) | 1.4.24 | Xray | 节点（分享链接 / 订阅分组） |
-| [AsteriskMETA](./meta) | 1.2.24 | Mihomo 或 Meow | 配置文件（Clash/Mihomo YAML） |
-| [AsteriskBOX](./box) | 1.1.24 | sing-box | 出站分组 + 选择器 + 路由 |
+| [AsteriskNG](./ng) | 1.4.25 | Xray | 节点（分享链接 / 订阅分组） |
+| [AsteriskMETA](./meta) | 1.2.26 | Mihomo 或 Meow | 配置文件（Clash/Mihomo YAML） |
+| [AsteriskBOX](./box) | 1.1.26 | sing-box | 出站分组 + 选择器 + 路由 |
 
 ::: tip 界面文字
 文中以 **粗体** 标出的菜单名称均取自应用的简体中文界面。若你使用其他界面语言，请对照英文版文档。
