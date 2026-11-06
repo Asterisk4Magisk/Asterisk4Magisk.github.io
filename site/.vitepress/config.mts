@@ -75,6 +75,7 @@ export default defineConfig({
         nav: [
           { text: '应用', link: '/zh-cn/#apps' },
           { text: '文档', link: '/zh-cn/guide/', activeMatch: '^/zh-cn/guide/' },
+          { text: '更新日志', activeMatch: '^/zh-cn/changelog/', items: [{ text: 'AsteriskNG', link: '/zh-cn/changelog/ng' }, { text: 'AsteriskMETA', link: '/zh-cn/changelog/meta' }, { text: 'AsteriskBOX', link: '/zh-cn/changelog/box' }] },
           { text: '频道', link: telegramChannel },
           { text: '社区', link: telegram }
         ],
@@ -113,6 +114,7 @@ export default defineConfig({
         nav: [
           { text: 'Apps', link: '/en/#apps' },
           { text: 'Guide', link: '/en/guide/', activeMatch: '^/en/guide/' },
+          { text: 'Changelog', activeMatch: '^/en/changelog/', items: [{ text: 'AsteriskNG', link: '/en/changelog/ng' }, { text: 'AsteriskMETA', link: '/en/changelog/meta' }, { text: 'AsteriskBOX', link: '/en/changelog/box' }] },
           { text: 'Channel', link: telegramChannel },
           { text: 'Community', link: telegram }
         ],
