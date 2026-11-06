@@ -57,7 +57,8 @@ export default defineConfig({
     pageData.title = siteConfig.site.title
   },
   head: [
-    ['link', { rel: 'icon', type: 'image/png', href: '/brand/asterisk.png' }],
+    ['link', { rel: 'icon', type: 'image/svg+xml', href: '/brand/asterisk.svg' }],
+    ['link', { rel: 'icon', type: 'image/png', sizes: '512x512', href: '/brand/asterisk.png' }],
     ['link', { rel: 'apple-touch-icon', href: '/brand/asterisk.png' }]
   ],
   sitemap: {
