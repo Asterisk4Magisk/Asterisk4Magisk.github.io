@@ -25,6 +25,12 @@ export function localePath(locale) {
   return `/${locale}/`
 }
 
+// Keeps the rest of a language-less path, e.g. /changelog/ -> /zh-cn/changelog/.
+export function localizePath(locale, pathname = '/') {
+  const rest = typeof pathname === 'string' ? pathname.replace(/^\/+/, '') : ''
+  return localePath(locale) + rest
+}
+
 export function localeFromPath(pathname) {
   if (typeof pathname !== 'string') return null
   const segment = pathname.split('/').filter(Boolean)[0]

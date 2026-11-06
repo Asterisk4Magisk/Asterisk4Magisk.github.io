@@ -1,17 +1,22 @@
 <script setup>
-import { onMounted } from 'vue'
+import { onMounted, ref } from 'vue'
 import {
   LOCALE_STORAGE_KEY,
-  localePath,
+  localizePath,
   resolvePreferredLocale
 } from '../locale-routing.mjs'
 
+const path = ref('/')
+const target = (locale) => localizePath(locale, path.value)
+
 onMounted(() => {
+  path.value = window.location.pathname
+  const suffix = window.location.search + window.location.hash
   const locale = resolvePreferredLocale({
     stored: window.localStorage.getItem(LOCALE_STORAGE_KEY),
     languages: navigator.languages?.length ? navigator.languages : [navigator.language]
   })
-  window.location.replace(localePath(locale))
+  window.location.replace(target(locale) + suffix)
 })
 </script>
 
@@ -21,8 +26,8 @@ onMounted(() => {
     <h1>Choose your language</h1>
     <p>Select a language if automatic detection does not continue.</p>
     <nav aria-label="Available languages">
-      <a href="/en/" hreflang="en">English</a>
-      <a href="/zh-cn/" hreflang="zh-CN">简体中文</a>
+      <a :href="target('en')" hreflang="en">English</a>
+      <a :href="target('zh-cn')" hreflang="zh-CN">简体中文</a>
     </nav>
   </main>
 </template>

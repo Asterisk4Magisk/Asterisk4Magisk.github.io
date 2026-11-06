@@ -4,12 +4,14 @@ import HeroVisual from './components/HeroVisual.vue'
 import HomeSections from './components/HomeSections.vue'
 import LanguageRedirect from './components/LanguageRedirect.vue'
 import LocalePreference from './components/LocalePreference.vue'
+import NotFoundRedirect from './components/NotFoundRedirect.vue'
 import './styles.css'
 
 export default {
   extends: DefaultTheme,
   Layout: () => h(DefaultTheme.Layout, null, {
     'home-hero-image': () => h(HeroVisual),
+    'not-found': () => h(NotFoundRedirect),
     'layout-bottom': () => h(LocalePreference)
   }),
   enhanceApp({ app }) {
