@@ -1,4 +1,37 @@
 import { defineConfig } from 'vitepress'
+import {
+  SUPPORTED_LOCALES,
+  LOCALE_STORAGE_KEY,
+  normalizeLocale,
+  resolvePreferredLocale,
+  localePath,
+  localizePath,
+  localeFromPath
+} from './theme/locale-routing.mjs'
+
+const siteTitle = 'Asterisk App Family'
+
+// Inlined into 404.html: sends language-less paths (e.g. /changelog/) to the
+// preferred locale before the app bundle loads, so the 404 page never shows.
+// Reuses the functions from locale-routing.mjs to keep one implementation.
+const earlyLanguageRedirect = `(() => {
+  try {
+    const SUPPORTED_LOCALES = ${JSON.stringify(SUPPORTED_LOCALES)}
+    ${normalizeLocale}
+    ${resolvePreferredLocale}
+    ${localePath}
+    ${localizePath}
+    ${localeFromPath}
+    if (localeFromPath(location.pathname)) return
+    let stored = null
+    try { stored = localStorage.getItem(${JSON.stringify(LOCALE_STORAGE_KEY)}) } catch {}
+    const locale = resolvePreferredLocale({
+      stored,
+      languages: navigator.languages?.length ? navigator.languages : [navigator.language]
+    })
+    location.replace(localizePath(locale, location.pathname) + location.search + location.hash)
+  } catch {}
+})()`
 
 const github = 'https://github.com/Asterisk4Magisk'
 const telegramChannel = 'https://t.me/Asterisk4Magisk'
@@ -55,6 +88,15 @@ export default defineConfig({
   // Keep the browser tab title fixed to the site title on every page.
   transformPageData(pageData, { siteConfig }) {
     pageData.title = siteConfig.site.title
+  },
+  // 404.html also serves language-less paths that are about to redirect, so it
+  // starts with the site title and the early redirect. Real 404s under a
+  // locale still get the "404" title once the app renders.
+  transformHtml(html, _id, { page }) {
+    if (page !== '404.md') return
+    return html
+      .replace('<title>404</title>', `<title>${siteTitle}</title>`)
+      .replace('<meta charset="utf-8">', `<meta charset="utf-8">\n    <script>${earlyLanguageRedirect}</script>`)
   },
   head: [
     ['link', { rel: 'icon', type: 'image/svg+xml', href: '/brand/asterisk.svg' }],

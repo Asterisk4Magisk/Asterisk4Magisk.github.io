@@ -143,6 +143,22 @@ html { scroll-behavior: smooth; }
 .language-gateway__eyebrow { color: var(--vp-c-brand-1); font-weight: 700; }
 .language-gateway nav { display: flex; justify-content: center; gap: 12px; margin-top: 28px; }
 .language-gateway a { padding: 10px 18px; border: 1px solid var(--vp-c-divider); border-radius: 22px; }
+.language-gateway h1 span,
+.language-gateway p span { display: block; }
+.language-gateway__spinner {
+  display: inline-block;
+  width: 28px;
+  height: 28px;
+  margin: 12px 0 4px;
+  border: 3px solid var(--vp-c-divider);
+  border-top-color: var(--vp-c-brand-1);
+  border-radius: 50%;
+  animation: language-gateway-spin 0.8s linear infinite;
+}
+@keyframes language-gateway-spin { to { transform: rotate(360deg); } }
+@media (prefers-reduced-motion: reduce) {
+  .language-gateway__spinner { animation-duration: 2.4s; }
+}
 
 a:focus-visible,
 button:focus-visible { outline: 3px solid var(--vp-c-brand-1); outline-offset: 3px; }
