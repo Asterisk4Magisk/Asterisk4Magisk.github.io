@@ -1,11 +1,11 @@
 ---
 title: AsteriskMETA
-description: AsteriskMETA (Mihomo / Meow) guide — profiles and subscriptions, proxy groups, providers, override scripts, raw profiles, automatic switching, and monitoring.
+description: AsteriskMETA (Mihomo / Meow) guide — profiles and subscriptions, proxy groups, providers, rule overrides, override scripts, raw profiles, automatic switching, and monitoring.
 ---
 
 # AsteriskMETA
 
-AsteriskMETA is a client built on the **Mihomo** (Clash Meta) or **Meow** core and centered on profiles: once you import a Clash / Mihomo YAML subscription, its proxy groups, rules, and providers take effect as-is. To adjust things, use the app's settings or a JavaScript override script instead of editing the subscription itself.
+AsteriskMETA is a client built on the **Mihomo** (Clash Meta) or **Meow** core and centered on profiles: once you import a Clash / Mihomo YAML subscription, its proxy groups, rules, and providers take effect as-is. To adjust things, use the app's settings, rule overrides, or a JavaScript override script instead of editing the subscription itself.
 
 The bottom navigation has four tabs: **Home**, **Proxies**, **Profiles**, and **Settings**.
 
@@ -63,19 +63,37 @@ When saving, the app downloads, decrypts, and verifies the profile in turn. If a
 
 Each profile's menu offers **Sync**, **Preview** (the final YAML that will be used), edit, and delete. **Update all subscriptions** in the page menu updates every remote profile in turn.
 
+- **Edit profile file**: edit a synced URL profile directly in the YAML editor; it is validated like a local profile when saved. The profile stays a URL profile, and the next subscription update replaces your edits.
 - **Sync providers**: updates the profile's remote `proxy-providers`.
 - **Provider usage**: when a profile has providers, expand it to see each provider's usage and expiry (requires the proxy to be running).
 
-If you change the profile that is currently running, the app shows **Changes not applied yet**; tap **Apply now** to have the running service use the new configuration.
+While the service is running, a subscription update or a saved change to the current profile, and a successful resource update, are applied to the running service automatically: an in-place reload in VPN Service mode, a service restart in ROOT modes. A sync that produces the same content does not trigger an apply.
 
-### Override scripts and raw profiles
+### Rule overrides, override scripts, and raw profiles
 
-When editing a profile, you can pick an **Override script** or turn on **Disable all overrides**:
+When editing a profile, you can set up a **Rule override**, pick an **Override script**, or turn on **Disable all overrides**:
 
+- **Rule override**: adjust the profile's rules in a graphical editor; see [Rule overrides](#rule-override) below.
 - **Override script**: transforms the profile with JavaScript before the service starts.
 - **Disable all overrides** (**Raw profile**): loads the YAML exactly as-is; neither app settings nor override scripts apply. The corresponding settings are shown read-only as **From YAML**. If required fields such as ports are missing the service may fail to start; the app shows a configuration check result.
 
 For which fields the app manages, the script API with examples, and what a raw profile must contain, see [Mihomo configuration](./core-mihomo).
+
+## Rule overrides {#rule-override}
+
+On the profile editing page, tap **Rule override** and turn on **Enable rule override** to adjust the subscription's rules without writing a script:
+
+| Section | Purpose |
+| --- | --- |
+| **Prepended rules** | Matched before every rule of the profile |
+| **Rules before the fallback** | Inserted right before the first `MATCH` |
+| **Fallback policy** | Changes the policy of the first `MATCH`; leave empty to keep the profile's. If the profile has no `MATCH`, a policy here adds one at the end |
+| **Profile rule edits** | Search the subscription's own rules in **Profile rules** and **Modify** or **Block** them one by one, or **Restore** them |
+
+- New rules can be edited as a **Form** or as **Raw text**; **Import rules** takes one rule per line and ignores blank lines and lines starting with `#`.
+- **Preview** shows the rules after the override and the final configuration, and flags missing policies or rule providers and rules placed after the fallback that can never match.
+- Rule overrides run before the override script, which can still change these rules; with **Disable all overrides** on they are not applied.
+- After a subscription update, edits whose original rule is gone are marked **Rule no longer exists**.
 
 ## Override scripts
 
@@ -83,7 +101,7 @@ For which fields the app manages, the script API with examples, and what a raw p
 
 Tap **Debug** and choose a **Temporary test profile** to run a script and see:
 
-- **Output YAML**: the full profile after the script runs;
+- **Final YAML**: the full configuration the core receives, after the rule override, the script, and the app-managed fields;
 - **Console**: anything the script prints with `console`;
 - **Summary**: how the number of proxies, policy groups, and rules changed.
 
@@ -112,12 +130,18 @@ Policy groups come from the profile's `proxy-groups`. Common types: `select` (ma
 | --- | --- |
 | **Resource management** | See [Common features · Resource management](./common#resources) |
 | **DNS settings** | With **Override DNS** on, replaces the profile's `dns` block with the app's settings: enhanced mode, Fake IP range and filter, default nameserver, nameserver, fallback and fallback filter, nameserver policy, proxy server nameserver, prefer HTTP/3, respect rules, hosts, and more |
-| **Sniffer** | Detects HTTP / TLS / QUIC target domains; set per-protocol ports, whether to override the destination, and domains / addresses to force or skip |
-| **Geodata mode** / **Geodata loader** | Use geodata files for GeoIP rules; `memconservative` uses less memory but loads more slowly |
+| **Sniffer** | Detects HTTP / TLS / QUIC target domains; set per-protocol ports, whether to override the destination, and domains / addresses to force or skip. With **Override sniffer** off, the profile's own `sniffer` block is kept |
 | **Proxy app list** | See [Common features · Per-app proxy](./common#per-app-proxy) |
 | **Connection test** | Test URL (used when a group does not specify one), test timeout, test concurrency, **Unified delay** |
 | **Automatic switching** | See below |
+| **Other** | See below |
 | **Log level** | Verbosity of the core log |
+
+**Other** contains:
+
+- **Geodata**: **Geodata mode** uses geodata files for GeoIP rules; `memconservative` in **Geodata loader** uses less memory but loads more slowly.
+- **Process matching**: **Find process mode**, how rules look up the app behind a connection; **Follow profile** by default.
+- **External control** (ROOT modes only): lets external panels reach the controller. Turn on **Fixed controller port** (a conflict fails the start instead of switching ports), set or **Regenerate secret**, **Listen on all interfaces**, set **Allowed origins (CORS)** and **Allow private network access**, and **Override external UI**. In VPN Service mode the core only serves the app's internal controller, so this section is hidden.
 
 ::: details Core implementation: DNS enhanced mode
 Mihomo's `dns.enhanced-mode` has two values:

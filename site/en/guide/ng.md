@@ -41,7 +41,7 @@ The page's overflow menu offers:
 - **Layout** (single / double / multiple columns) and **Sort** (default / latency / name).
 - **Search servers**, **Copy all server URLs**.
 - **Delete duplicate proxy servers**, **Delete invalid proxy servers**, **Delete all proxy servers**.
-- **Restart service**: apply configuration changes to the running service right away.
+- **Restart service**: apply manual server edits to the running service right away. When a subscription update changes the server in use (including any server a selected chain or strategy group resolves to), or a resource update succeeds, the running service restarts automatically to apply it.
 
 Use the buttons / menu on a server card to edit, share, or delete it. Sharing options are **Share URL**, **QR code**, and **Full JSON**.
 
@@ -128,7 +128,7 @@ To see how rules are written into the Xray config and which domain forms are sup
 ### Sniffing, Mux, and Fragment
 
 - **Sniffing**: detects HTTP / TLS target domains to assist routing; with **routeOnly** on, sniffed domains are used for routing only and do not rewrite the destination.
-- **Mux**: connection multiplexing. Can lower latency but may cause stalls — use with care. Set **TCP concurrency**, **XUDP concurrency**, and **QUIC handling** (multiplex / native / don't proxy) separately.
+- **Mux**: connection multiplexing. Can lower latency but may cause stalls — use with care. Set **TCP concurrency**, **XUDP concurrency**, and **QUIC handling** (multiplex / native / reject) separately.
 - **Fragment**: splits early TCP traffic; enable only when needed. Set **Fragment mode**, **Fragment length**, and **Fragment interval**.
 
 ::: details Core implementation

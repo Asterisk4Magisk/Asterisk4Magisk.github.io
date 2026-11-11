@@ -49,7 +49,7 @@ ROOT 模式下，应用通过 libsu 以 ROOT 身份直接运行核心可执行�
 - 监听本地 IPv4 / IPv6 地址和热点接口变化，自动刷新 iptables 规则或 BPF map；
 - 服务停止时清理当前模式负责的网络规则。
 
-首次切换到 ROOT 模式时，ROOT 管理器会弹出授权请求，请允许。若提示 **获取ROOT权限失败！**，请在 ROOT 管理器中检查授权记录。
+首次切换到 ROOT 模式时，ROOT 管理器会弹出授权请求，请允许。若提示 **获取 ROOT 权限失败**，请在 ROOT 管理器中检查授权记录。
 
 ### ROOT 通用设置
 
@@ -62,11 +62,11 @@ ROOT 模式下，应用通过 libsu 以 ROOT 身份直接运行核心可执行�
 | **绕过私有地址** | 仅 AsteriskBOX 的 eBPF 模式。私有地址不进入代理核心 |
 | **禁用系统 IPv6** | 在应用中关闭 IPv6 后出现，用于防止 WebRTC 等途径泄露 IPv6 地址 |
 | **应用名单增强** | 仅 TPROXY、TUN2SOCKS、BPF2SOCKS 模式，见下文 [增强模块](#enhance) |
-| **热点共享设置** | 允许 Wi-Fi / USB / 蓝牙 / 以太网 热点共享的下游设备流量进入代理 |
+| **网络共享设置** | 允许通过 Wi-Fi、USB、蓝牙或以太网共享网络的下游设备流量进入代理 |
 | **忽略接口设置** | 指定不接管的网络接口；末尾加 `+` 可按前缀匹配，如 `wlan+` |
 | **私有地址设置** | 私有地址默认不进入代理核心；需要代理的网段在此添加 |
 
-在 TUN 模式（AsteriskMETA / AsteriskBOX）与 eBPF 模式（AsteriskBOX）下，**热点共享设置** 改为填写实际的下游接口名（如 `ap0`、`rndis0`），不支持通配符；**忽略接口设置** 与 **私有地址设置** 不显示。
+在 TUN 模式（AsteriskMETA / AsteriskBOX）与 eBPF 模式（AsteriskBOX）下，**网络共享设置** 改为填写实际的下游接口名（如 `ap0`、`rndis0`），不支持通配符；**忽略接口设置** 与 **私有地址设置** 不显示。
 
 ::: info FakeDNS 与分应用代理
 ROOT 模式开启 FakeDNS / FakeIP 时，分应用代理默认仅支持 **全应用模式**。在 TPROXY、TUN2SOCKS、BPF2SOCKS 模式下开启 [应用名单增强](#enhance) 后，DNS 会按应用名单分流，此限制随之解除。

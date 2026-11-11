@@ -75,9 +75,9 @@ These systems check whether Google is reachable, and when the check fails they a
 
 Install the [GoogleFirewallFixer](https://github.com/Asterisk4Magisk/GoogleFirewallFixer) module (requires Zygisk and LSPosed):
 
-- Download the build for your system: the ColorOS build for ColorOS 16+, the RedMagicOS build for RedMagicOS 8+;
-- Enable the module in LSPosed, make sure its scope is checked (**Battery** on ColorOS, **System Framework** on RedMagicOS), then reboot;
-- The module only stops the system from blocking these Google apps and leaves other restrictions alone: on ColorOS, network permissions you set in Data usage, as well as network cuts during deep sleep and app freezing, keep working; the RedMagicOS build also keeps the Google Play services push processes from being killed, so there is no need to turn off **App optimization**.
+- Download the build for your system: the ColorOS build for ColorOS 16+, the RedMagic OS build for RedMagic OS 8+;
+- Enable the module in LSPosed, make sure its scope is checked (**Battery** on ColorOS, **System Framework** on RedMagic OS), then reboot;
+- The module only stops the system from blocking these Google apps and leaves other restrictions alone: on ColorOS, network permissions you set in Data usage, as well as network cuts during deep sleep and app freezing, keep working; the RedMagic OS build also keeps the Google Play services push processes from being killed, so there is no need to turn off **App optimization**.
 
 ## Background and battery
 

@@ -43,6 +43,7 @@ When FakeDNS / FakeIP is enabled in a ROOT mode, only all-app mode is available 
 - Tap a file to **Replace** it with a local file, **Restore** the built-in version, or delete a custom file.
 - **Add custom resource file**: give it a file name and a download URL.
 - Files marked **Only used in ROOT modes** are used only in ROOT modes.
+- While the service is running, a successful resource update is applied to the running service automatically.
 
 Available update sources:
 

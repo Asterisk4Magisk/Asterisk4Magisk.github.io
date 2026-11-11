@@ -31,7 +31,7 @@ Android 17 起，访问局域网需要 **本地网络** 权限。若首次打开
 
 ### 启动后显示已连接，但无法上网
 
-- 用 **测试真连接**（AsteriskNG）或 **整组测试**（AsteriskMETA）确认节点本身可用。
+- 用 **真连接测试**（AsteriskNG）或 **整组测试**（AsteriskMETA）确认节点本身可用。
 - 检查分应用代理：白名单模式下，未加入名单的应用不会走代理。
 - 检查 DNS：尝试关闭 FakeDNS / 覆写 DNS 等自定义项，或换用默认设置。
 - 检查系统时间：时间偏差过大会导致 TLS / REALITY 等握手失败。
@@ -39,14 +39,14 @@ Android 17 起，访问局域网需要 **本地网络** 权限。若首次打开
 
 ### 订阅更新失败
 
-- 订阅地址本身被阻断时，开启 **使用代理更新** / **通过代理更新**，在代理运行时再更新。
+- 订阅地址本身被阻断时，开启 **通过代理更新** / **通过当前运行的代理更新**，在代理运行时再更新。
 - 有的服务商根据 User-Agent 返回不同格式；可换用 Clash Meta、v2rayNG、sing-box 等预设或自定义 User-Agent。
 - 提示 HWID 被拒绝或设备数量已达上限时，需要在服务商处解绑旧设备。
 - 订阅使用 Age 加密时，需要填写对应的 Age 私钥。
 
 ## ROOT 模式
 
-### 提示「获取ROOT权限失败！」
+### 提示「获取 ROOT 权限失败」
 
 在 ROOT 管理器（Magisk / KernelSU / APatch）中为本应用授予超级用户权限；若之前拒绝过，请删除拒绝记录后重试。
 
@@ -58,9 +58,9 @@ Android 17 起，访问局域网需要 **本地网络** 权限。若首次打开
 
 这两种模式依赖内核的 eBPF 支持，通常适配 **GKI 5.10 及以上** 内核的设备（可在系统设置的「关于手机」中查看内核版本，或执行 `uname -r`）。内核较旧或不满足条件时，请改用 TPROXY 或 TUN2SOCKS。
 
-### 热点共享的设备没有走代理
+### 网络共享的设备没有走代理
 
-在 **代理设置 → 热点共享设置** 中勾选对应的共享类型（Wi-Fi / USB / 蓝牙 / 以太网）；TUN 模式与 AsteriskBOX 的 eBPF 模式下需要填写实际的下游接口名。VPN Service 模式无法透明代理热点下游设备；可在 **本地代理设置** 中开启 **监听全部网络接口**，让下游设备手动填写代理地址。
+在 **代理设置 → 网络共享设置** 中勾选对应的共享类型（Wi-Fi / USB / 蓝牙 / 以太网）；TUN 模式与 AsteriskBOX 的 eBPF 模式下需要填写实际的下游接口名。VPN Service 模式无法透明代理热点下游设备；可在 **本地代理设置** 中开启 **监听全部网络接口**，让下游设备手动填写代理地址。
 
 ### 开启了 FakeDNS 后无法使用白名单 / 黑名单
 
@@ -71,13 +71,13 @@ ROOT 模式开启 FakeDNS / FakeIP 时，默认只支持全应用模式，已选
 
 ### ColorOS / RedMagic OS 上 Google Play 商店与 Google Play 服务无法联网
 
-这两个系统会探测 Google 是否可达，探测失败就主动禁止 Google 应用联网，即使代理正常运行这些应用也无法连接；之后在网络变化等时机还会重新探测，手动解除的限制很快就会被恢复。ColorOS 16+ 由电池组件执行，涉及 Google Play 服务、Google Play 商店和 ConfigUpdater，VPN Service 模式下探测会直接判定为成功，因此主要影响 ROOT 模式；RedMagicOS 8+ 由系统的「应用优化」执行，涉及 Google Play 服务和 Google Play 商店。
+这两个系统会探测 Google 是否可达，探测失败就主动禁止 Google 应用联网，即使代理正常运行这些应用也无法连接；之后在网络变化等时机还会重新探测，手动解除的限制很快就会被恢复。ColorOS 16+ 由电池组件执行，涉及 Google Play 服务、Google Play 商店和 ConfigUpdater，VPN Service 模式下探测会直接判定为成功，因此主要影响 ROOT 模式；RedMagic OS 8+ 由系统的「应用优化」执行，涉及 Google Play 服务和 Google Play 商店。
 
 可以安装 [GoogleFirewallFixer](https://github.com/Asterisk4Magisk/GoogleFirewallFixer) 模块（需要 Zygisk 与 LSPosed）：
 
-- 按系统下载对应版本：ColorOS 16+ 使用 ColorOS 版，RedMagicOS 8+ 使用 RedMagicOS 版；
-- 在 LSPosed 中启用模块，确认作用域已勾选（ColorOS 为「电池」，RedMagicOS 为「系统框架」），然后重启手机；
-- 模块只阻止系统对这几个 Google 应用禁网，其他限制保持不变：ColorOS 上流量管理中手动设置的联网开关，以及深度睡眠、应用冻结时的断网照常生效；RedMagicOS 版还会避免查杀 Google Play 服务的推送进程，「应用优化」无需关闭。
+- 按系统下载对应版本：ColorOS 16+ 使用 ColorOS 版，RedMagic OS 8+ 使用 RedMagic OS 版；
+- 在 LSPosed 中启用模块，确认作用域已勾选（ColorOS 为「电池」，RedMagic OS 为「系统框架」），然后重启手机；
+- 模块只阻止系统对这几个 Google 应用禁网，其他限制保持不变：ColorOS 上流量管理中手动设置的联网开关，以及深度睡眠、应用冻结时的断网照常生效；RedMagic OS 版还会避免查杀 Google Play 服务的推送进程，「应用优化」无需关闭。
 
 ## 后台与耗电
 

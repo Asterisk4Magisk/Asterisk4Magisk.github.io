@@ -65,7 +65,7 @@ The outbound editor follows sing-box's structure: **Server**, **Protocol**, **TL
 
 The outbound list menu offers **PING this group**, layout and sort (manual order / remarks / protocol / PING latency), search, copy all server URLs, delete duplicates, and more. An outbound can be shared with **Copy URL**, **Generate QR code**, or **Copy JSON**.
 
-If you change groups or outbounds while the service is running, the app shows **Changes not applied**; tap **Apply now**.
+If you edit groups or outbounds by hand while the service is running, the app shows **Changes not applied**; tap **Apply now**. A subscription update that changes the outbounds, or a successful resource update, is applied to the running service automatically: an in-place reload in VPN Service mode, a service restart in ROOT modes.
 
 ## Proxies
 

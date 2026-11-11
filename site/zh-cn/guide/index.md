@@ -11,9 +11,9 @@ Asterisk App Family 是三款面向 Android 的开源代理客户端。三款应
 
 | 应用 | 版本 | 代理核心 | 配置的基本单位 |
 | --- | --- | --- | --- |
-| [AsteriskNG](./ng) | 1.4.25 | Xray | 节点（分享链接 / 订阅分组） |
-| [AsteriskMETA](./meta) | 1.2.26 | Mihomo 或 Meow | 配置文件（Clash/Mihomo YAML） |
-| [AsteriskBOX](./box) | 1.1.26 | sing-box | 出站分组 + 选择器 + 路由 |
+| [AsteriskNG](./ng) | 1.4.26 | Xray | 节点（分享链接 / 订阅分组） |
+| [AsteriskMETA](./meta) | 1.2.27 | Mihomo 或 Meow | 配置文件（Clash/Mihomo YAML） |
+| [AsteriskBOX](./box) | 1.1.27 | sing-box | 出站分组 + 选择器 + 路由 |
 
 ::: tip 界面文字
 文中以 **粗体** 标出的菜单名称均取自应用的简体中文界面。若你使用其他界面语言，请对照英文版文档。
@@ -31,7 +31,7 @@ Asterisk App Family 是三款面向 Android 的开源代理客户端。三款应
 
 1. 第一次使用：阅读 [快速开始](./getting-started)，完成安装、导入订阅和首次连接。
 2. 了解应用如何接管流量：阅读 [运行模式与 ROOT](./run-modes)。无 ROOT 设备只需了解 VPN Service 模式。
-3. 三款应用共有的功能（分应用代理、资源文件、通知与磁贴、隐私、备份还原、日志）见 [通用功能](./common)。
+3. 三款应用共有的功能（分应用代理、资源文件、通知与磁贴、隐私、备份与还原、日志）见 [通用功能](./common)。
 4. 各应用的页面与配置，见 [AsteriskNG](./ng)、[AsteriskMETA](./meta)、[AsteriskBOX](./box)。
 5. 需要按 Wi-Fi、锁屏、定时自动启停，或用 Tasker / adb 控制，见 [自动化与外部控制](./automation)。
 6. 想深入定制核心配置（Custom 节点、覆写脚本、原始配置），见核心：[Xray](./core-xray)、[Mihomo](./core-mihomo)、[sing-box](./core-singbox)。

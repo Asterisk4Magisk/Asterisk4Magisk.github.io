@@ -83,7 +83,7 @@ In Tasker: add a **Send Intent** action, set **Action** to the full action (pref
 - Subscription updates skip local items; cancelling keeps already completed results and the scheduled update configuration.
 - Resource updates use the current configuration in resource management; cancelling a resource update also clears its shared queue.
 - While an update of the same kind is running, repeated commands are merged.
-- Updates run in the background and **do not start the proxy**. Delivery of the broadcast does not mean the update finished — check the `BroadcastControl` tag in the app logs for the result.
+- Updates run in the background and **do not start the proxy**; if the service is running, the result is applied to it automatically. Delivery of the broadcast does not mean the update finished — check the `BroadcastControl` tag in the app logs for the result.
 - In VPN Service mode, starting the proxy requires that the VPN permission was granted before.
 
 ::: warning Security

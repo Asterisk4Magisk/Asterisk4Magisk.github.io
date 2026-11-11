@@ -12,17 +12,19 @@ AsteriskMETA starts from the Mihomo (Clash Meta) YAML you import, makes a few ne
 ```text
 Subscription / file YAML
    │
-   ├─ ① Override script main(config) (if the profile has one)
+   ├─ ① Rule override (if the profile has one enabled)
    │
-   ├─ ② App-managed fields: ports, inbounds, API, mode, DNS, sniffer, …
+   ├─ ② Override script main(config) (if the profile has one)
    │
-   └─ ③ Run by the core
+   ├─ ③ App-managed fields: ports, inbounds, API, mode, DNS, sniffer, …
+   │
+   └─ ④ Run by the core
 ```
 
-With **Disable all overrides** (raw profile) on, steps ① and ② are skipped and the YAML is passed to the core as-is.
+With **Disable all overrides** (raw profile) on, steps ①, ②, and ③ are skipped and the YAML is passed to the core as-is.
 
-::: tip Script first, managed fields second
-The override script runs **before** the app-managed fields are applied. Changes the script makes to the managed fields below are overwritten by the app; for every other field (`proxies`, `proxy-groups`, `rules`, `proxy-providers`, `rule-providers`, and so on) the script's output wins.
+::: tip Rule override first, then the script, then managed fields
+The [rule override](./meta#rule-override) runs first, so the script sees the overridden rules. The override script runs **before** the app-managed fields are applied. Changes the script makes to the managed fields below are overwritten by the app; for every other field (`proxies`, `proxy-groups`, `rules`, `proxy-providers`, `rule-providers`, and so on) the script's output wins.
 :::
 
 ## Fields managed by the app {#managed}
@@ -32,13 +34,15 @@ The override script runs **before** the app-managed fields are applied. Changes 
 | `mixed-port`, `socks-port`, `listeners`, `tun`, and other inbounds | Determined by the run mode and **Local proxy settings**. Unneeded inbounds are zeroed or cleared; TPROXY and TUN (ROOT) modes are generated through `listeners` |
 | `authentication` | **Local proxy username / password** |
 | `allow-lan`, `bind-address` | LAN access is allowed when **Listen on all network interfaces** or root tethering sharing is on |
-| `external-controller`, `secret`, … | The API address and secret used internally by Home, Proxies, connection monitoring, and other features |
+| `external-controller`, `secret`, … | The API address and secret used internally by Home, Proxies, connection monitoring, and other features. In ROOT modes, **Other → External control** can fix the port, set the secret, listen on all interfaces, and configure CORS |
+| `external-ui`, `external-ui-name`, `external-ui-url` | Written when **Override external UI** is on |
+| `find-process-mode` | **Find process mode**; **Follow profile** keeps the profile's value |
 | `mode` | **Rule / Global / Direct** on Home, i.e. `rule` / `global` / `direct` |
 | `unified-delay` | **Connection test → Unified delay** |
 | `log-level` | **Log level** |
-| `geodata-mode`, `geodata-loader`, `geox-url` | **Geodata mode**, **Geodata loader**, and the resource **Update source** |
+| `geodata-mode`, `geodata-loader`, `geox-url` | **Geodata mode** and **Geodata loader** under **Other**, and the resource **Update source** |
 | `ipv6` | The IPv6 switch |
-| `sniffer` | **Sniffer** settings |
+| `sniffer` | **Sniffer** settings; with **Override sniffer** off the profile's block is kept as written |
 | `asterisk-auto-switch` | **Automatic switching** settings (see below) |
 | `dns`, `hosts` | See "DNS merge rules" below |
 
@@ -90,7 +94,7 @@ function main(config) {
 }
 ```
 
-A new group only carries traffic once a rule or another `select` group references it. Use **Override scripts → Debug** to check the **Output YAML** and **Summary**, and confirm the changes in proxy, group, and rule counts are what you expect.
+A new group only carries traffic once a rule or another `select` group references it. Use **Override scripts → Debug** to check the **Final YAML** and **Summary**, and confirm the changes in proxy, group, and rule counts are what you expect.
 
 ## Raw profiles {#raw}
 

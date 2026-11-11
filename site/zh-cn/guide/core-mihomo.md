@@ -12,17 +12,19 @@ AsteriskMETA 以你导入的 Mihomo（Clash Meta）YAML 为基础，在启动前
 ```text
 订阅 / 文件 YAML
    │
-   ├─ ① 覆写脚本 main(config)（若该配置选择了脚本）
+   ├─ ① 规则覆写（若该配置启用了规则覆写）
    │
-   ├─ ② 应用托管字段：端口、入站、API、模式、DNS、嗅探等
+   ├─ ② 覆写脚本 main(config)（若该配置选择了脚本）
    │
-   └─ ③ 交给核心运行
+   ├─ ③ 应用托管字段：端口、入站、API、模式、DNS、嗅探等
+   │
+   └─ ④ 交给核心运行
 ```
 
-开启 **完全关闭覆写**（原始配置）时，跳过 ① 和 ②，YAML 原样交给核心。
+开启 **完全关闭覆写**（原始配置）时，跳过 ①、② 和 ③，YAML 原样交给核心。
 
-::: tip 先脚本，后托管
-覆写脚本在应用托管字段**之前**执行。脚本对下表中托管字段的修改会被应用覆盖；其他字段（`proxies`、`proxy-groups`、`rules`、`proxy-providers`、`rule-providers` 等）则以脚本的输出为准。
+::: tip 先规则覆写，再脚本，最后托管
+[规则覆写](./meta#rule-override) 最先执行，脚本看到的是覆写后的规则。覆写脚本在应用托管字段**之前**执行。脚本对下表中托管字段的修改会被应用覆盖；其他字段（`proxies`、`proxy-groups`、`rules`、`proxy-providers`、`rule-providers` 等）则以脚本的输出为准。
 :::
 
 ## 应用托管的字段 {#managed}
@@ -31,14 +33,16 @@ AsteriskMETA 以你导入的 Mihomo（Clash Meta）YAML 为基础，在启动前
 | --- | --- |
 | `mixed-port`、`socks-port`、`listeners`、`tun` 等入站 | 由运行模式与 **本地代理设置** 决定。不需要的入站会被置零或清空；TPROXY 与 TUN（ROOT）模式通过 `listeners` 生成 |
 | `authentication` | **本地代理用户名 / 密码** |
-| `allow-lan`、`bind-address` | 开启 **监听全部网络接口** 或 ROOT 热点共享时允许局域网访问 |
-| `external-controller`、`secret` 等 | 应用内部使用的 API 地址与密钥，供首页、代理页、连接监控等功能使用 |
+| `allow-lan`、`bind-address` | 开启 **监听全部网络接口** 或 ROOT 网络共享时允许局域网访问 |
+| `external-controller`、`secret` 等 | 应用内部使用的 API 地址与密钥，供首页、代理页、连接监控等功能使用。ROOT 模式下可在 **其他 → 外部控制** 中固定端口、设置密钥、监听所有接口并配置 CORS |
+| `external-ui`、`external-ui-name`、`external-ui-url` | 开启 **覆写外部面板** 时写入 |
+| `find-process-mode` | **进程查找模式**；选择 **跟随配置** 时保留配置原值 |
 | `mode` | 首页的 **规则 / 全局 / 直连**，对应 `rule` / `global` / `direct` |
 | `unified-delay` | **连接测试 → 统一延迟** |
 | `log-level` | **日志等级** |
-| `geodata-mode`、`geodata-loader`、`geox-url` | **Geodata 模式**、**Geodata 加载器** 与资源 **更新来源** |
+| `geodata-mode`、`geodata-loader`、`geox-url` | **其他** 中的 **Geodata 模式**、**Geodata 加载器**，以及资源 **更新来源** |
 | `ipv6` | IPv6 开关 |
-| `sniffer` | **域名嗅探** 设置 |
+| `sniffer` | **域名嗅探** 设置；关闭 **覆写域名嗅探** 时保留配置原样 |
 | `asterisk-auto-switch` | **自动切换** 设置（见下文） |
 | `dns`、`hosts` | 见下文「DNS 合并规则」 |
 
@@ -90,7 +94,7 @@ function main(config) {
 }
 ```
 
-新增的组需要被规则或其他 `select` 组引用后才会实际承载流量。修改后可在 **覆写脚本 → 调试** 中查看 **输出 YAML** 与 **摘要**，确认节点、策略组、规则数量的变化符合预期。
+新增的组需要被规则或其他 `select` 组引用后才会实际承载流量。修改后可在 **覆写脚本 → 调试** 中查看 **最终 YAML** 与 **摘要**，确认节点、策略组、规则数量的变化符合预期。
 
 ## 原始配置 {#raw}
 
