@@ -9,6 +9,18 @@ This page summarizes the user-facing changes in every stable AsteriskNG release.
 
 Dates are GitHub Releases publication dates (UTC).
 
+## 1.4.26 · 2026-11-11 {#v1-4-26}
+
+- **New**: on Android 17 the app requests the local network permission at startup, so LAN servers and tethering sharing keep working. See [Getting started](../guide/getting-started#first-connection).
+- **Improved**: when a subscription update changes the server in use, or a resource update succeeds, the running service restarts automatically to apply the new configuration. See [AsteriskNG · Server list](../guide/ng#server-list).
+- **Fixed**: when a "Least ping" strategy group has no live member yet — right after start, or when every probe failed — connections fall back to the first member instead of looping back into the group and driving CPU usage up.
+- **Fixed**: real connection and handshake latency tests on a strategy group now test each member and report the best member result for the group.
+- **Fixed**: the traffic statistics notification no longer dismisses itself after start on boot in ROOT mode.
+- **Fixed**: automatic resource updates in the background check the proxy state first and download through the proxy while it is running.
+- **Fixed**: notifications no longer linger after a resource update finishes or is cancelled.
+- **Improved**: compact server cards match AsteriskMETA and AsteriskBOX; a new Quick Settings tile icon; refined UI text.
+- **Core**: Xray updated to v26.11.9.
+
 ## 1.4.25 · 2026-11-03 {#v1-4-25}
 
 - **New**: share and export subscription groups — subscription QR code, copy subscription link, copy every server link in the group, or export links to a file. See [AsteriskNG · Subscription groups](../guide/ng#subscription-groups).

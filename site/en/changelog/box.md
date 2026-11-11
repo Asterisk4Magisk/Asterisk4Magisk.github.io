@@ -9,6 +9,14 @@ This page summarizes the user-facing changes in every stable AsteriskBOX release
 
 Dates are GitHub Releases publication dates (UTC).
 
+## 1.1.27 · 2026-11-11 {#v1-1-27}
+
+- **Improved**: a subscription update that changes the outbounds, or a successful resource update, is applied to the running service automatically (an in-place reload in VPN Service mode, a service restart in ROOT modes); manual edits to groups or outbounds still go through the **Changes not applied** prompt. See [AsteriskBOX · Groups and outbounds](../guide/box#groups-and-outbounds).
+- **Fixed**: restarting the service no longer swaps the control port for a random one.
+- **Fixed**: automatic resource updates in the background check the proxy state first and download through the proxy while it is running.
+- **Fixed**: notifications no longer linger after a resource update finishes or is cancelled.
+- **Improved**: multi-line text fields scroll horizontally instead of wrapping; compact proxy and outbound cards use at most two title lines; a new Quick Settings tile icon; refined UI text.
+
 ## 1.1.26 · 2026-11-05 {#v1-1-26}
 
 - **New**: protocol plugins. With the plugin APKs installed you can use Mieru, ShadowQUIC, and Juicity outbounds, or switch Hysteria2 / NaiveProxy to their plugin implementations. See [AsteriskBOX · Protocol plugins](../guide/box#plugins).

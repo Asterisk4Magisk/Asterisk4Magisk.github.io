@@ -9,6 +9,19 @@ This page summarizes the user-facing changes in every stable AsteriskMETA releas
 
 Dates are GitHub Releases publication dates (UTC).
 
+## 1.2.27 · 2026-11-11 {#v1-2-27}
+
+- **New**: rule overrides. On the profile editing page, add prepended rules and rules before the fallback, change the fallback policy, or modify and block the subscription's own rules one by one — no script needed. See [AsteriskMETA · Rule overrides](../guide/meta#rule-override).
+- **New**: synced URL profiles can be edited with **Edit profile file**; the next subscription update replaces the edits.
+- **New**: a new **Other** entry in settings holds geodata, **Find process mode**, and, in ROOT modes, external control (fixed controller port, secret, listening on all interfaces, CORS, and external UI override). See [AsteriskMETA · Settings](../guide/meta#settings).
+- **New**: the sniffer gains an **Override sniffer** switch; turned off, the profile's own `sniffer` block is kept.
+- **Improved**: a subscription update or saved change to the current profile, and a successful resource update, are applied to the running service automatically (an in-place reload in VPN Service mode, a service restart in ROOT modes); tapping "Apply now" is no longer needed.
+- **Improved**: override script debugging shows the **Final YAML** the core actually receives.
+- **Fixed**: restarting the service no longer swaps the controller port for a random one.
+- **Fixed**: automatic resource updates in the background check the proxy state first and download through the proxy while it is running.
+- **Fixed**: notifications no longer linger after a resource update finishes or is cancelled.
+- **Improved**: multi-line text fields scroll horizontally instead of wrapping; compact proxy cards use at most two title lines; a new Quick Settings tile icon; refined UI text.
+
 ## 1.2.26 · 2026-11-05 {#v1-2-26}
 
 - **New**: on Android 17 the app requests the local network permission at startup, so LAN servers and hotspot sharing keep working. See [Getting started](../guide/getting-started#first-connection).
