@@ -14,10 +14,6 @@ description: Asterisk 应用的常见问题：启动失败、无法联网、订�
 
 ## 安装与启动
 
-### 应该下载哪个 APK？
-
-不确定时选择 `universal`；明确是 64 位 ARM 设备（绝大多数手机）可选 `arm64-v8a`，体积更小。见 [快速开始 · 下载安装包](./getting-started#download)。
-
 ### 提示「VPN 权限未授予，无法启动 VPN Service」
 
 首次启动时系统会弹出 VPN 连接请求，需要点击确定。如果没有弹窗：
@@ -62,7 +58,7 @@ Android 17 起，访问局域网需要 **本地网络** 权限。若首次打开
 
 在 **代理设置 → 网络共享设置** 中勾选对应的共享类型（Wi-Fi / USB / 蓝牙 / 以太网）；TUN 模式与 AsteriskBOX 的 eBPF 模式下需要填写实际的下游接口名。VPN Service 模式无法透明代理热点下游设备；可在 **本地代理设置** 中开启 **监听全部网络接口**，让下游设备手动填写代理地址。
 
-### 开启了 FakeDNS 后无法使用白名单 / 黑名单
+### 开启了 FakeDNS 后无法使用白名单 / 黑名单 {#fakedns-app-list}
 
 ROOT 模式开启 FakeDNS / FakeIP 时，默认只支持全应用模式，已选的黑白名单会按全应用模式处理。两种解决方式：
 
@@ -104,4 +100,4 @@ ROOT 模式开启 FakeDNS / FakeIP 时，默认只支持全应用模式，已选
 
 ### AsteriskMETA 如何在 Mihomo 和 Meow 之间切换？
 
-下载另一个核心版本的 APK 直接覆盖安装即可，用户数据保留。Meow 版不支持 TUN（ROOT）模式：如果安装 Meow 版前正在使用 TUN（ROOT），应用会自动把运行模式恢复为默认的 VPN Service，并关闭开机自启，请在切换后重新检查运行模式。
+下载另一个核心版本的 APK 直接覆盖安装即可，用户数据保留。Meow 版不支持 TUN（ROOT），见 [AsteriskMETA · 核心版本](./meta#core-editions)。

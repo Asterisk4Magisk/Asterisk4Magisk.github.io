@@ -14,10 +14,6 @@ description: Common questions about the Asterisk apps — startup failures, no c
 
 ## Installing and starting
 
-### Which APK should I download?
-
-If unsure, choose `universal`. If you know your device is 64-bit ARM (almost all phones), `arm64-v8a` is smaller. See [Getting started · Download](./getting-started#download).
-
 ### "VPN permission was not granted. VPN Service cannot be started"
 
 Android shows a VPN connection request on first start; tap OK. If no prompt appears:
@@ -62,7 +58,7 @@ These modes depend on kernel eBPF support and are generally suited to devices wi
 
 Under **Proxy settings → Tethering sharing**, check the tethering types you use (Wi-Fi / USB / Bluetooth / Ethernet); in TUN mode and AsteriskBOX's eBPF mode, enter the actual downstream interface names. VPN Service mode cannot transparently proxy tethered devices; instead, turn on **Listen on all network interfaces** in **Local proxy settings** and configure the proxy manually on the downstream devices.
 
-### Whitelist / blacklist are unavailable with FakeDNS on
+### Whitelist / blacklist are unavailable with FakeDNS on {#fakedns-app-list}
 
 When FakeDNS / FakeIP is enabled in a ROOT mode, only all-app mode is supported by default, and a selected whitelist / blacklist is treated as all-app. Two ways around it:
 
@@ -104,4 +100,4 @@ Yes, they have different package names. In VPN Service mode only one VPN can be 
 
 ### How do I switch AsteriskMETA between Mihomo and Meow?
 
-Download the APK of the other core edition and install it over the current one; your data is kept. The Meow edition does not support TUN (ROOT): if you were using TUN (ROOT) before installing the Meow edition, the app automatically resets the run mode to the default VPN Service and turns off start on boot, so re-check the run mode after switching.
+Download the APK of the other core edition and install it over the current one; your data is kept. The Meow edition does not support TUN (ROOT); see [AsteriskMETA · Core editions](./meta#core-editions).

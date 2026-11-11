@@ -18,8 +18,6 @@ Get the latest release from each app's GitHub Releases page:
 - [AsteriskMETA Releases](https://github.com/Asterisk4Magisk/AsteriskMETA/releases/latest)
 - [AsteriskBOX Releases](https://github.com/Asterisk4Magisk/AsteriskBOX/releases/latest)
 
-Each release ships APKs split by CPU architecture:
-
 | File name contains | For |
 | --- | --- |
 | `arm64-v8a` | Almost all recent phones and tablets (recommended) |
@@ -28,10 +26,10 @@ Each release ships APKs split by CPU architecture:
 | `universal` | All architectures, largest download; pick this if unsure |
 
 ::: info Two core editions of AsteriskMETA
-Each AsteriskMETA APK bundles exactly one core. APKs with `-meow` in the file name contain **Meow**; the others contain **Mihomo**. Both use the same package name, so you can switch cores by installing one over the other — your data is kept. See [AsteriskMETA · Core editions](./meta#core-editions) for the differences.
+APKs with `-meow` in the file name contain **Meow**; the others contain **Mihomo**. See [AsteriskMETA · Core editions](./meta#core-editions) for the differences and how to switch.
 :::
 
-Only download APKs from the official GitHub Releases. The apps are GPL-3.0 licensed; you can review or build them yourself.
+Official APKs are distributed only through GitHub Releases; check the safety of APKs from any other source.
 
 ## First connection
 

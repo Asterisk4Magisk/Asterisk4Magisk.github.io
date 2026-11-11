@@ -18,8 +18,6 @@ description: 下载与安装 Asterisk 应用、导入订阅并完成首次连接
 - [AsteriskMETA Releases](https://github.com/Asterisk4Magisk/AsteriskMETA/releases/latest)
 - [AsteriskBOX Releases](https://github.com/Asterisk4Magisk/AsteriskBOX/releases/latest)
 
-每个版本都提供按 CPU 架构拆分的 APK：
-
 | 文件名包含 | 适用设备 |
 | --- | --- |
 | `arm64-v8a` | 绝大多数近年的手机与平板（推荐） |
@@ -28,10 +26,10 @@ description: 下载与安装 Asterisk 应用、导入订阅并完成首次连接
 | `universal` | 包含全部架构，体积最大；不确定时可选它 |
 
 ::: info AsteriskMETA 的两个核心版本
-AsteriskMETA 每个 APK 只内置一个核心。文件名带 `-meow` 的是 **Meow** 版，不带的是 **Mihomo** 版。两者包名相同，覆盖安装即可切换核心，数据会保留。两者的差异见 [AsteriskMETA · 核心版本](./meta#core-editions)。
+文件名带 `-meow` 的是 **Meow** 版，不带的是 **Mihomo** 版，差异与切换方法见 [AsteriskMETA · 核心版本](./meta#core-editions)。
 :::
 
-只从官方 GitHub Releases 获取安装包。应用以 GPL-3.0 协议开源，可自行审阅或构建。
+官方仅在 GitHub Releases 分发应用安装包，其他来源请注意甄别安全性。
 
 ## 首次连接
 

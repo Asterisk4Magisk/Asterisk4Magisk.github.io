@@ -5,8 +5,6 @@ description: Features shared by all three apps — per-app proxy, resource manag
 
 # Common features
 
-This page covers features shared by all three apps. Where a setting lives in a different section in each app, it is noted below.
-
 ## Per-app proxy {#per-app-proxy}
 
 Decides which apps send their traffic through the proxy.
@@ -30,9 +28,7 @@ Common actions (in the page's overflow menu):
 - **Import from clipboard** / **Export to clipboard**: move lists between devices or apps; when importing, choose **Merge import** or **Replace existing**.
 - Pull down to refresh the installed app list.
 
-::: tip
-When FakeDNS / FakeIP is enabled in a ROOT mode, only all-app mode is available by default; with [Application list enhancement](./run-modes#enhance) on in TPROXY, TUN2SOCKS, or BPF2SOCKS mode, whitelist / blacklist work again.
-:::
+For the limit with FakeDNS / FakeIP in ROOT modes, see the [FAQ](./faq#fakedns-app-list).
 
 ## Resource management {#resources}
 
