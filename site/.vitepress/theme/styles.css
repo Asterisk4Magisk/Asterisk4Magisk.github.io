@@ -18,6 +18,12 @@
 
 html { scroll-behavior: smooth; }
 [id] { scroll-margin-top: 88px; }
+
+/* Table headers and the label column keep short CJK labels on one line; other cells wrap normally. */
+.vp-doc th,
+.vp-doc td:first-child { word-break: keep-all; }
+.vp-doc th code,
+.vp-doc td:first-child code { white-space: nowrap; }
 .VPContent .VPHome { margin-bottom: 0; overflow: hidden; }
 .VPHomeHero .name { letter-spacing: -0.035em; }
 .VPHomeHero .text { max-width: 650px; }
