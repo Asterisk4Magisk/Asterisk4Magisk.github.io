@@ -44,7 +44,7 @@ Android allows only one VPN app to be connected at a time. Starting this app dis
 
 ## ROOT modes
 
-In ROOT modes the app runs the core executable directly as root through libsu, and the resident daemon **asteriskd** maintains the network rules:
+In ROOT modes the app gains root through libsu, and the **asteriskd** daemon runs the core as root and maintains the network rules:
 
 - it watches local IPv4 / IPv6 addresses and tethering interfaces and refreshes iptables rules or BPF maps accordingly;
 - when the service stops, it cleans up the rules owned by the current mode.

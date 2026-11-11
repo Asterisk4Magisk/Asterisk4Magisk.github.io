@@ -53,7 +53,11 @@ AsteriskBOX 把界面中的分组、出站、选择器、端点、DNS 与路由*
 | `selector_<编号>_<别名>` | **选择器管理** 中创建的 Selector / URLTest |
 | `endpoint_<编号>_<别名>` | 端点 |
 | `dns_server_<编号>_<别名>` | DNS 服务器 |
+| `dns_evaluation_<编号>_<别名>` | **评估** 动作的 DNS 规则使用的标签 |
 | `dns_fakeip` | FakeIP DNS 服务器 |
+| `rule_set_<编号>_<文件名>` | 资源管理中添加的自定义规则集 |
+| `rule_set_<文件名>` | 内置规则集 |
+| `service_api` | ROOT 模式下应用使用的 `api` 服务 |
 
 别名中的特殊字符会被替换，实际标签请以 **配置预览** 为准。
 

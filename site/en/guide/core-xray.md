@@ -17,7 +17,7 @@ AsteriskNG does not ask you to edit a full Xray config file. Instead, it **gener
 | `routing` | Rules on the **Routing** page, the **Default outbound proxy tag**, and the **Domain strategy** |
 | `dns`, `fakeDns` | **Core settings → DNS settings** |
 | `observatory`, `burstObservatory` | Generated automatically for "Least ping" and "Least Load" strategy groups |
-| `stats`, `api`, `policy` | Always added; the app uses them for traffic statistics |
+| `stats`, `api`, `policy` | Added when **Show traffic statistics** is on, for traffic statistics |
 
 ## Reserved tags {#tags}
 
@@ -43,7 +43,7 @@ These tags are reserved by the app and can be referenced from routing rules or C
 | `tun2socks-in` | TUN2SOCKS mode |
 | `bpf2socks-in` | BPF2SOCKS mode |
 
-With DNS hijacking on, the app inserts a rule at the very top of the routing rules that sends TCP / UDP traffic to port 53 from the traffic-entry inbound (e.g. `vpn-tun-in`, or `socks-in` with Hev TUN) to `dns-out`.
+With DNS hijacking on, the app inserts a rule before the rules from the **Routing** page that sends TCP / UDP traffic to port 53 from the traffic-entry inbound (e.g. `vpn-tun-in`, or `socks-in` with Hev TUN) to `dns-out`.
 
 ## How servers become outbounds {#outbounds}
 
@@ -71,10 +71,10 @@ Each rule on the **Routing** page becomes one entry in `routing.rules`. Rules ar
 | `geosite:cn` | A category from `geosite.dat` |
 | `ext:file.dat:tag` | A category from a custom dat file in the resource directory |
 
-**IP rules** accept single IPs, CIDRs (e.g. `10.0.0.0/8`), and `geoip:cn`, `geoip:private`, and so on.
+**IP rules** accept single IPs, CIDRs (e.g. `10.0.0.0/8`), `geoip:cn`, `geoip:private`, and so on, as well as `ext:file.dat:tag`.
 
 ::: tip Custom rule files
-A `.dat` file downloaded with **Add custom resource file** in **Resource management** can be referenced with `ext:`. Before starting, the app checks that every referenced file exists and is not empty, and reports an error instead of letting the core silently ignore it.
+A `.dat` file downloaded with **Add custom resource file** in **Resource management** can be referenced with `ext:`. Before starting, the app checks that every file referenced with `ext:` in the **Domain rules** of enabled rules exists and is not empty, and reports an error instead of letting the core silently ignore it.
 :::
 
 ## Custom servers {#custom}
@@ -86,16 +86,16 @@ A **Custom** server lets you paste Xray JSON directly. It must be a JSON object 
 Use this when you want your own outbounds and routing but let the app handle the rest. The app will:
 
 - **replace** `inbounds` with the current run mode's inbounds, and **replace** `dns` and `fakeDns` with the app's DNS settings;
-- remove your `direct` and `dns-out` outbounds and use the app's versions instead;
+- remove your `direct` and `dns-out` outbounds and use the app's `direct` instead, adding the app's `dns-out` when DNS hijacking is on;
 - treat the outbound tagged `proxy` as the main outbound; if there is none, use the first outbound without a reserved tag (and name it `proxy` if it has no tag);
 - insert the DNS hijacking and DNS upstream rules **before** your `routing.rules`, keeping your rules in their original order.
 
 ### With the override off
 
-The config is passed to the core almost **as-is**; only the `stats` / `api` / `policy` needed for traffic statistics are added. In this case:
+The config is passed to the core almost **as-is**; only when **Show traffic statistics** is on are the `stats` / `api` / `policy` needed for traffic statistics added. In this case:
 
 - you must write the inbounds, DNS, and routing yourself, and they must match the current run mode — for example, TPROXY mode needs a transparent `dokodemo-door` inbound listening on the **Transparent proxy port**;
-- the app's per-app proxy, DNS settings, and routing rules do not apply to this server.
+- the app's DNS settings and the rules on the **Routing** page do not apply to this server; per-app proxy is enforced by the VPN / ROOT layer and still applies.
 
 ::: warning
 Turning the override off is an advanced option. If the config does not match the run mode, the proxy may start but nothing will load. Keep it on in most cases.

@@ -31,7 +31,7 @@ AsteriskMETA 以你导入的 Mihomo（Clash Meta）YAML 为基础，在启动前
 
 | 字段 | 应用写入的值 |
 | --- | --- |
-| `mixed-port`、`socks-port`、`listeners`、`tun` 等入站 | 由运行模式与 **本地代理设置** 决定。不需要的入站会被置零或清空；TPROXY 与 TUN（ROOT）模式通过 `listeners` 生成 |
+| `mixed-port` | **本地代理端口**。其他入站字段的写法见下文「强制处理的字段」 |
 | `authentication` | **本地代理用户名 / 密码** |
 | `allow-lan`、`bind-address` | 开启 **监听全部网络接口** 或 ROOT 网络共享时允许局域网访问 |
 | `external-controller`、`secret` 等 | 应用内部使用的 API 地址与密钥，供首页、代理页、连接监控等功能使用。ROOT 模式下可在 **其他 → 外部控制** 中固定端口、设置密钥、监听所有接口并配置 CORS |
@@ -43,13 +43,40 @@ AsteriskMETA 以你导入的 Mihomo（Clash Meta）YAML 为基础，在启动前
 | `geodata-mode`、`geodata-loader`、`geox-url` | **其他** 中的 **Geodata 模式**、**Geodata 加载器**，以及资源 **更新来源** |
 | `ipv6` | IPv6 开关 |
 | `sniffer` | **域名嗅探** 设置；关闭 **覆写域名嗅探** 时保留配置原样 |
-| `asterisk-auto-switch` | **自动切换** 设置（见下文） |
+| `asterisk-auto-switch` | 开启 **开启自动切换** 时按设置生成（见下文）；关闭时移除，配置自带的该字段不会生效 |
 | `dns`、`hosts` | 见下文「DNS 合并规则」 |
+
+### 强制处理的字段 {#forced}
+
+覆写脚本执行之后，应用会重新写入下列字段，订阅或脚本中的值都不会生效。只有开启 **完全关闭覆写**（原始配置）时才保留 YAML 原样。
+
+**固定写入，没有设置项：**
+
+| 字段 | 实际行为 |
+| --- | --- |
+| `port`、`redir-port` | 始终为 `0` |
+| `tproxy-port` | 始终为 `0`。TPROXY 模式不使用该字段，而是在 `listeners` 中生成 `asterisk-tproxy` 入站（见下表） |
+| `tun` | 始终为 `enable: false`。TUN（ROOT）模式不使用该字段，而是在 `listeners` 中生成 `asterisk-tun` 入站（见下表） |
+| `external-controller-unix` | VPN Service 模式为应用内部的控制套接字，其他模式移除 |
+| `external-controller-pipe`、`external-controller-tls` | 始终移除 |
+| `profile` | `store-selected` 与 `store-fake-ip` 强制为 `true`，其他子项保留 |
+| `ntp` | `write-to-system` 强制为 `false`，其他子项保留 |
+| `proxy-providers`、`rule-providers` 的 `path` | 仅 ROOT 模式：统一放到 `providers-root/` 目录下。已写 `path` 的去掉 `.`、`..` 等路径段后拼在其后；未写 `path` 的远程 Provider 按 URL 生成文件名 |
+| `x-asteriskmeta-root-tun`、`x-asteriskmeta-root-bpf2socks` | 应用内部的模式标记，分别只在 TUN（ROOT）与 BPF2SOCKS 模式下写入为 `true`，其他情况移除 |
+
+**取值来自设置，但写法由应用决定：**
+
+| 字段 | 实际行为 |
+| --- | --- |
+| `socks-port` | TUN2SOCKS 模式为 **TUN2SOCKS SOCKS5 端口**，BPF2SOCKS 模式为 **SOCKS5 端口**，其他模式为 `0` |
+| `listeners` | 配置自带的监听器总会被丢弃。TPROXY 模式只有 `asterisk-tproxy`（`tproxy` 类型，端口为 **透明代理端口**，开启 UDP）；TUN（ROOT）模式只有 `asterisk-tun`（设备 `asterisk0`，开启 `auto-route`、`auto-redirect`、`auto-detect-interface`，栈、MTU 与地址取自 **TUN 设置**，并按分应用名单、网络共享接口与绕过规则集生成匹配范围）；其他模式为空 |
+| `skip-auth-prefixes` | 设置了 **本地代理用户名** 且 VPN Service 开启 **追加 HTTP 代理** 时为 `127.0.0.1/8`、`::1/128`，否则移除 |
+| `proxies`、`rules` | ROOT 模式或 VPN Service 开启 **使用 Hev TUN** 时，若 **启用 DNS 劫持**：`proxies` 末尾追加名为 `dns-out` 的 `dns` 类型代理（已有同名代理时不追加），`rules` 最前面插入两条规则，把流量入口入站目标端口 53 的 TCP / UDP 交给 `dns-out`；`rules` 为空时先补一条 `MATCH,DIRECT` |
 
 ## DNS 合并规则 {#dns}
 
 - 开启 **覆写 DNS**，或配置中的 `dns.enable` 不为 `true` 时：使用应用 **DNS 设置** 生成的 `dns` 块。
-- 否则保留配置自带的 `dns` 块。
+- 否则保留配置自带的 `dns` 块；若未 **启用 DNS 劫持**，其中的 `enable` 会被置为 `false`。
 - 应用 **DNS hosts** 中的条目会与配置中的 `hosts` 合并。
 - 运行模式需要 DNS 劫持时，应用会补充相应的 `dns-hijack` 设置。
 

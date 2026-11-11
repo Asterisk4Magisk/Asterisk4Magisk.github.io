@@ -31,7 +31,7 @@ The [rule override](./meta#rule-override) runs first, so the script sees the ove
 
 | Field | Value written by the app |
 | --- | --- |
-| `mixed-port`, `socks-port`, `listeners`, `tun`, and other inbounds | Determined by the run mode and **Local proxy settings**. Unneeded inbounds are zeroed or cleared; TPROXY and TUN (ROOT) modes are generated through `listeners` |
+| `mixed-port` | **Local proxy port**. See "Fields the app always handles" below for the other inbound fields |
 | `authentication` | **Local proxy username / password** |
 | `allow-lan`, `bind-address` | LAN access is allowed when **Listen on all network interfaces** or root tethering sharing is on |
 | `external-controller`, `secret`, … | The API address and secret used internally by Home, Proxies, connection monitoring, and other features. In ROOT modes, **Other → External control** can fix the port, set the secret, listen on all interfaces, and configure CORS |
@@ -43,13 +43,40 @@ The [rule override](./meta#rule-override) runs first, so the script sees the ove
 | `geodata-mode`, `geodata-loader`, `geox-url` | **Geodata mode** and **Geodata loader** under **Other**, and the resource **Update source** |
 | `ipv6` | The IPv6 switch |
 | `sniffer` | **Sniffer** settings; with **Override sniffer** off the profile's block is kept as written |
-| `asterisk-auto-switch` | **Automatic switching** settings (see below) |
+| `asterisk-auto-switch` | Generated from the settings while **Enable automatic switching** is on (see below); removed when it is off, so a value in the profile never applies |
 | `dns`, `hosts` | See "DNS merge rules" below |
+
+### Fields the app always handles {#forced}
+
+After the override script runs, the app writes these fields again, so values from the subscription or the script never apply. Only **Disable all overrides** (raw profile) keeps the YAML as written.
+
+**Fixed, with no setting:**
+
+| Field | Actual behavior |
+| --- | --- |
+| `port`, `redir-port` | Always `0` |
+| `tproxy-port` | Always `0`. TPROXY mode does not use this field; it generates the `asterisk-tproxy` inbound in `listeners` instead (see the next table) |
+| `tun` | Always `enable: false`. TUN (ROOT) mode does not use this field; it generates the `asterisk-tun` inbound in `listeners` instead (see the next table) |
+| `external-controller-unix` | The app's internal controller socket in VPN Service mode; removed in other modes |
+| `external-controller-pipe`, `external-controller-tls` | Always removed |
+| `profile` | `store-selected` and `store-fake-ip` are forced to `true`; other keys are kept |
+| `ntp` | `write-to-system` is forced to `false`; other keys are kept |
+| `path` of `proxy-providers` and `rule-providers` | ROOT modes only: placed under `providers-root/`. A written `path` is appended after dropping segments such as `.` and `..`; remote providers without a `path` get a file name derived from their URL |
+| `x-asteriskmeta-root-tun`, `x-asteriskmeta-root-bpf2socks` | Internal mode markers, written as `true` only in TUN (ROOT) and BPF2SOCKS mode respectively, and removed otherwise |
+
+**Values from settings, written the app's way:**
+
+| Field | Actual behavior |
+| --- | --- |
+| `socks-port` | **TUN2SOCKS SOCKS5 port** in TUN2SOCKS mode, **SOCKS5 port** in BPF2SOCKS mode, `0` in other modes |
+| `listeners` | The profile's listeners are always dropped. TPROXY mode has only `asterisk-tproxy` (type `tproxy`, port from **Transparent proxy port**, UDP on); TUN (ROOT) mode has only `asterisk-tun` (device `asterisk0`, `auto-route`, `auto-redirect`, and `auto-detect-interface` on, stack, MTU, and addresses from **TUN settings**, with the match scope built from the per-app list, tethering interfaces, and bypass rule sets); other modes have none |
+| `skip-auth-prefixes` | `127.0.0.1/8` and `::1/128` when a **Local proxy username** is set and **Append HTTP proxy** is on in VPN Service mode; removed otherwise |
+| `proxies`, `rules` | In ROOT modes, or in VPN Service mode with **Use Hev TUN**, when **Enable DNS hijacking** is on: a `dns`-type proxy named `dns-out` is appended to `proxies` (unless one with that name exists), and two rules are inserted at the top of `rules` that send TCP / UDP to port 53 from the traffic inbound to `dns-out`; empty `rules` first get a `MATCH,DIRECT` |
 
 ## DNS merge rules {#dns}
 
 - If **Override DNS** is on, or the profile's `dns.enable` is not `true`: the `dns` block generated from the app's **DNS settings** is used.
-- Otherwise the profile's own `dns` block is kept.
+- Otherwise the profile's own `dns` block is kept; if **Enable DNS hijacking** is off, its `enable` is set to `false`.
 - Entries from the app's **DNS hosts** are merged with the profile's `hosts`.
 - When the run mode needs DNS hijacking, the app adds the corresponding `dns-hijack` settings.
 

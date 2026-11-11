@@ -10,7 +10,7 @@ description: Service control (start and stop by Wi-Fi, lock screen, or schedule)
 In ROOT modes, **Settings → Proxy settings (current mode) → Service control** starts or stops the proxy service automatically based on conditions. With **Enable service control** on, the asteriskd daemon stays resident even when the proxy service is stopped, so it can react to the conditions. This feature is not available in VPN Service mode; use [broadcast control](#broadcast) with an automation app instead.
 
 ::: info Before you start
-Add and select a proxy server (or profile) first. Saving restarts the service to apply the new rules; if applying fails, your edits are kept.
+AsteriskNG needs a selected proxy server first, and AsteriskMETA a selected profile with content. Saving restarts the service to apply the new rules; if applying fails, your edits are kept.
 :::
 
 ### Wi-Fi control

@@ -20,7 +20,7 @@ The bottom navigation has four tabs: **Home**, **Proxies**, **Groups**, and **Se
 | Routing rules | `route` | **Settings → Routing management** |
 | Override script (optional) | Final changes to the generated result | **Settings → Advanced settings → Override script** |
 
-- A selector can be "managed", so its members follow an outbound group automatically; or you can freely combine outbounds from several groups.
+- Every outbound group comes with a managed selector whose members follow the group automatically; custom selectors can freely combine outbounds from several groups.
 - Routing and DNS rules can reference outbounds, selectors, or endpoints.
 - See the full generated configuration in **Settings → Tools → Configuration preview**.
 

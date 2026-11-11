@@ -44,7 +44,7 @@ Android 同一时间只允许一个 VPN 应用处于连接状态。启动本应�
 
 ## ROOT 模式
 
-ROOT 模式下，应用通过 libsu 以 ROOT 身份直接运行核心可执行文件，并由常驻守护进程 **asteriskd** 维护网络规则：
+ROOT 模式下，应用通过 libsu 获取 ROOT 权限，由守护进程 **asteriskd** 以 ROOT 身份运行核心并维护网络规则：
 
 - 监听本地 IPv4 / IPv6 地址和热点接口变化，自动刷新 iptables 规则或 BPF map；
 - 服务停止时清理当前模式负责的网络规则。
