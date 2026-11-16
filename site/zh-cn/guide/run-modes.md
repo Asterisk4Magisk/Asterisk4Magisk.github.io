@@ -89,6 +89,7 @@ ROOT 模式开启 FakeDNS / FakeIP 时，分应用代理默认仅支持 **全应
 [AsteriskEnhance](https://github.com/Asterisk4Magisk/AsteriskEnhance) 是可选的系统模块，让**系统 DNS 也按分应用名单分流**，并为不同名单隔离解析缓存，避免应用间的 DNS 结果互相污染。
 
 - 需要 ROOT 和 **Zygisk Next**；支持 TPROXY、TUN2SOCKS 与 BPF2SOCKS 模式。
+- 使用 **应用名单增强** 前，必须在 Android 系统设置中将 **私人 DNS** 设为 **关闭**，否则代理服务无法正常启动。
 - 在 **设置 → 代理设置（当前模式）** 中开启 **应用名单增强**，按提示由应用自动刷入（支持 Magisk、KernelSU、APatch）。
 - 安装或更新后**需要重启设备**。应用更新附带新版模块时，会提示更新并重启。
 - 自动刷入失败时，可导出本应用 APK，将后缀 `.apk` 改为 `.zip`，在 ROOT 管理器中手动刷入。

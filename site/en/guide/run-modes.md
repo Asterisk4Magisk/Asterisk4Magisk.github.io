@@ -89,6 +89,7 @@ The ROOT services of the three apps share the same set of network rules and cann
 [AsteriskEnhance](https://github.com/Asterisk4Magisk/AsteriskEnhance) is an optional system module that **routes system DNS by the per-app list too**, and keeps separate resolver caches per list so DNS answers do not leak between apps.
 
 - Requires root and **Zygisk Next**; supports TPROXY, TUN2SOCKS, and BPF2SOCKS.
+- Before using **Application list enhancement**, set **Private DNS** to **Off** in Android system settings; otherwise the proxy service cannot start properly.
 - Turn on **Application list enhancement** under **Settings → Proxy settings (current mode)** and follow the prompts; the app flashes the module for you (Magisk, KernelSU, and APatch are supported).
 - **Reboot after installing or updating.** When an app update ships a newer module, you will be prompted to update and reboot.
 - If automatic flashing fails, export the app's APK, rename `.apk` to `.zip`, and flash it manually in your root manager.
